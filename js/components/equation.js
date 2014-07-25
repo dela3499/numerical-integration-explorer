@@ -15,7 +15,7 @@ var transform = function (x) {
     ---
     Outer parsefloat required to make output a number.
     */
-    return parseFloat(parseFloat(x).toFixed(1)); 
+    return parseFloat(parseFloat(x).toFixed(0)); 
 };
 
 
@@ -60,14 +60,14 @@ var Equation = React.createClass({
         var A = <Variable 
                 value={getDisplayValue("A")}
                 limits={[-50,50]} 
-                sensitivity={1} 
+                sensitivity={0.1} 
                 format={eqFormat}
                 transformation={transform}
                 callback={callback.bind(null, "A")}
                 />,
             f = <Variable 
                 value={getDisplayValue("f")}
-                limits={[0,100]} 
+                limits={[0,10]} 
                 sensitivity={1} 
                 format={eqFormat}
                 transformation={transform}
@@ -75,7 +75,7 @@ var Equation = React.createClass({
                 />,                  
             phi = <Variable 
                 value={getDisplayValue("phi")}
-                limits={[0,100]} 
+                limits={[-4,4]} 
                 sensitivity={1} 
                 format={eqFormat}
                 transformation={transform}
@@ -83,8 +83,8 @@ var Equation = React.createClass({
                 />,                         
             B = <Variable 
                 value={getDisplayValue("B")}
-                limits={[0,100]} 
-                sensitivity={1} 
+                limits={[-5,5]} 
+                sensitivity={2} 
                 format={eqFormat}
                 transformation={transform}
                 callback={callback.bind(null, "B")}
