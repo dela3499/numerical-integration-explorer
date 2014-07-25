@@ -22,7 +22,7 @@ var transform = function (x) {
 
 var Equation = React.createClass({
     getInitialState: function() {
-        MathJax.Hub.Config({tex2jax:{inlineMath:[['$','$'],['\\(','\\)']]}});
+        MathJax.Hub.Config({messageStyle: "none",tex2jax:{inlineMath:[['$','$'],['\\(','\\)']]}});
         return {active: true,
                params: {A:1,
                        f:2,
