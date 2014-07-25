@@ -23,15 +23,24 @@ var Equation = React.createClass({
         return {active: true,
                params: {A:1,
                        f:2,
-                       theta: 3,
-                       phi: 4,
-                       B: 5}};
+                       phi: 3,
+                       B: 4},
+               paramSymbols: {A: "A",
+                             f: "f",
+                             phi: "\\phi",
+                             B: "B"}};
     },
     componentDidMount: function (root) {
         MathJax.Hub.Queue(["Typeset",MathJax.Hub,root]);
     },
     componentDidUpdate: function (props,state,root) {
         MathJax.Hub.Queue(["Typeset",MathJax.Hub,root]);
+    },
+    handleMouseEnter: function () {
+//        this.setState({active: true});
+    },
+    handleMouseLeave: function () {
+//        this.setState({active: false});
     },
     render: function() {
         var t = this;
@@ -42,8 +51,11 @@ var Equation = React.createClass({
             state.params[key] = value;
             t.setState(state)
         };
+        var getDisplayValue = function (key) {
+            return t.state.active? t.state.params[key] : t.state.paramSymbols[key];
+        };
         var A = <Variable 
-                value={this.state.params.A}
+                value={getDisplayValue("A")}
                 limits={[-50,50]} 
                 sensitivity={1} 
                 format={eqFormat}
@@ -51,7 +63,7 @@ var Equation = React.createClass({
                 callback={callback.bind(null, "A")}
                 />,
             f = <Variable 
-                value={this.state.params.f}
+                value={getDisplayValue("f")}
                 limits={[0,100]} 
                 sensitivity={1} 
                 format={eqFormat}
@@ -59,7 +71,7 @@ var Equation = React.createClass({
                 callback={callback.bind(null, "f")}
                 />,                  
             phi = <Variable 
-                value={this.state.params.phi}
+                value={getDisplayValue("phi")}
                 limits={[0,100]} 
                 sensitivity={1} 
                 format={eqFormat}
@@ -67,7 +79,7 @@ var Equation = React.createClass({
                 callback={callback.bind(null, "phi")}
                 />,                         
             B = <Variable 
-                value={this.state.params.B}
+                value={getDisplayValue("B")}
                 limits={[0,100]} 
                 sensitivity={1} 
                 format={eqFormat}
@@ -76,9 +88,11 @@ var Equation = React.createClass({
                 />;                    
 
         
-        var eq = "$Asin(f \theta + \phi) + B$";
+        var eqSymbolic = "$Asin(f \theta + \phi) + B$"; 
+        
+        
         return (
-            <div id="equation">
+            <div id="equation" onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave}>
                 {A} $sin (${f} $\theta+$ {phi}$)+$ {B};
             </div>
         );
