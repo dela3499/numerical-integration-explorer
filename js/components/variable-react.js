@@ -52,6 +52,7 @@ var Variable = React.createClass({
         var f = t.props.callback;
         var transform = this.props.transformation || function (x) {return x};
         setInterval(function () {
+            
             if (t.state.dragging) {
                 f(transform(currentValue));
             }
