@@ -6,7 +6,13 @@ body {
     -ms-user-select: none;
     user-select: none;
     font-family: raleway;
-    font-size: 1em;
-    color: white;
-    background: #4a774f;
+    font-size: 4.0vw;
+    color: #ccc;
+    background: #22303b;
+    margin-top: 40vh;
+    text-align: center;
+}
+
+.variable {
+    border-bottom: solid 2px rgba(255, 255, 255, 0.11);
 }

@@ -96,7 +96,7 @@ var Equation = React.createClass({
         
         return (
             <div id="equation" onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave}>
-                {A} $sin (${f} $\theta+$ {phi}$)+$ {B};
+                $f(\theta)=$ {A} $sin (${f} $\theta+$ {phi}$)+$ {B}
             </div>
         );
     }
@@ -105,7 +105,7 @@ var Equation = React.createClass({
 
 React.renderComponent(
     <Equation/>,
-    document.getElementById('bananas')
+    document.getElementById('content')
 );
     
 
