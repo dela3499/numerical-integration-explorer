@@ -11,8 +11,11 @@ var eqFormat = function (x) {
 var transform = function (x) {
     /* need parseFloat to ensure toFixed operates on a number
     for some reason, low values of x don't appear as numbers.
-    http://stackoverflow.com/questions/14059201/why-does-firebug-say-tofixed-is-not-a-function */
-    return parseFloat(x).toFixed(1); 
+    http://stackoverflow.com/questions/14059201/why-does-firebug-say-tofixed-is-not-a-function 
+    ---
+    Outer parsefloat required to make output a number.
+    */
+    return parseFloat(parseFloat(x).toFixed(1)); 
 };
 
 
