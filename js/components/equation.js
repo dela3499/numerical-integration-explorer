@@ -1,7 +1,7 @@
 /** @jsx React.DOM */
 
 var eqFormat = function (x) {
-    return "$" + x + "$";
+    return "$" + x.toFixed(1) + "$";
 };
 
 var transform = function (x) {
@@ -17,10 +17,10 @@ var transform = function (x) {
 var Equation = React.createClass({
     getInitialState: function() {
         MathJax.Hub.Config({messageStyle: "none",tex2jax:{inlineMath:[['$','$'],['\\(','\\)']]}});
-        return {params: {A:1,
-                         f:2,
-                         phi: 3,
-                         B: 4},
+        return {params: {A:1.0,
+                         f:2.0,
+                         phi: 3.0,
+                         B: 4.0},
                paramSymbols: {A: "A",
                              f: "f",
                              phi: "\\phi",
