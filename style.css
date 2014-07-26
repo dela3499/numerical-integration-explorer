@@ -22,7 +22,7 @@ body {
 }
 canvas {
     background: rgba(128, 128, 128, 0.08);
-    padding: 50px;
+/*    padding: 50px;*/
     border-bottom: rgba(172, 172, 172, 0.67) 8px solid;
     /*
     width: 500px;
