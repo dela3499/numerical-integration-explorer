@@ -31,8 +31,8 @@ var rescale = function (dataGroup, canvasWidth, canvasHeight) {
         yScale = dataGroup.map(function (dataSet) {return dataSet.y.max()}).max(); // find smallest y value in datasets    
     var newDataGroup = deepCopy(dataGroup);
     for (var i = 0; i < newDataGroup.length; i++) {
-        newDataGroup[i].x = newDataGroup[i].x.scale(canvasWidth*0.9/xScale);
-        newDataGroup[i].y = newDataGroup[i].y.scale(canvasWidth*0.9/yScale);
+        newDataGroup[i].x = newDataGroup[i].x.scale(canvasWidth/xScale);
+        newDataGroup[i].y = newDataGroup[i].y.scale(canvasWidth/yScale);
     };    
     return newDataGroup;
 };

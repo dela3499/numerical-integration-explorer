@@ -83,7 +83,7 @@ var Equation = React.createClass({
                 callback={callback.bind(null, "B")}
                 />;
         return (
-            <div id="equation" onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave}>
+            <div className="equation" onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave}>
                 $f(\theta)=$ {A} $sin (${f} $\theta+$ {phi}$)+$ {B}
             </div>
         );

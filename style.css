@@ -9,10 +9,23 @@ body {
     font-size: 4.0vw;
     color: #ccc;
     background: #22303b;
-    margin-top: 40vh;
+    margin-top: 4vh;
     text-align: center;
 }
 
 .variable {
     border-bottom: solid 2px rgba(255, 255, 255, 0.11);
+}
+
+.equation {
+    padding: 30px;
+}
+canvas {
+    background: rgba(128, 128, 128, 0.08);
+    padding: 50px;
+    border-bottom: rgba(172, 172, 172, 0.67) 8px solid;
+    /*
+    width: 500px;
+    height: 500px;
+*/
 }
