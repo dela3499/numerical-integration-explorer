@@ -1,44 +1,44 @@
 /** @jsx React.DOM */
 
-var lineWidth = 5;
-var data = [
-    {x: linspace(0, 5*Math.PI,1000),
-     y: [],
-     options: {
-         color: "white",
-         lineWidth: lineWidth}
-    },
-    {x: linspace(0, 7*Math.PI,1000),
-     y: [],
-     options: {
-         color: "#097495",
-         lineWidth: lineWidth}
-    }
-]
-
-var myFunc = function (x,params) {
-    var A = params.A || 1,
-        f = params.f || 1,
-        phi = params.phi || 0,
-        B = params.B || 0;
-    return A * Math.sin(f * x + phi) + B;
-};
-for (var i = 0; i < data[0].x.length; i++) {
-    data[0].y.push(myFunc(data[0].x[i],{}));
-};
-for (var i = 0; i < data[1].x.length; i++) {
-    data[1].y.push(myFunc(data[1].x[i], {A:2,f:0.2,B:1}));
-};
-
-
 var App = React.createClass({
+    getInitialState: function () {
+        console.log("getInitialState");
+        return {data: {
+            x:[],
+            y:[],
+            options:{
+                color: "white",
+                lineWidth: 5
+            }}};
+    },
+    sinFunc: function (params) {
+        var A = params.A || 0,
+            f = params.f || 0,
+            phi = params.phi || 0,
+            B = params.B || 0,
+            data = {};
+        data.x = linspace(0, 5*Math.PI,1000);
+        data.y = data.x.map(function (xi) {
+            return A * Math.sin(f * xi + phi) + B;
+        });
+        return data;
+    },
     render: function () {
         return (
             <div>
-                <Graph data={data} size={500}/>
-                <Equation numeric={true} />
+                <Graph data={[this.state.data]} size={500}/>
+                <Equation numeric={true} callback={this.handleParamUpdate} />
             </div>
         );
+    },
+    handleParamUpdate: function (params) {
+        var t = this;
+        var state = deepCopy(this.state);
+        xyData = this.sinFunc(params);
+        console.log(params.f);
+        state.data.x = xyData.x;
+        state.data.y = xyData.y;
+        this.setState(state);
     }
 });
 

@@ -11,7 +11,7 @@ var transform = function (x) {
     ---
     Outer parsefloat required to make output a number.
     */
-    return parseFloat(parseFloat(x).toFixed(0)); 
+    return parseFloat(parseFloat(x).toFixed(1)); 
 };
 
 var Equation = React.createClass({
@@ -43,9 +43,10 @@ var Equation = React.createClass({
         var callback = function (key,value) {
             /* deep copy to avoid direct state mutation 
             (http://stackoverflow.com/questions/122102/what-is-the-most-efficient-way-to-clone-an-object)*/
-            var state = $.extend(true, {}, t.state);
+            var state = deepCopy(t.state);
             state.params[key] = value;
-            t.setState(state)
+            t.props.callback(state.params);
+            t.setState(state);
         };
         var getDisplayValue = function (key) {
             return t.props.numeric? t.state.params[key] : t.state.paramSymbols[key];

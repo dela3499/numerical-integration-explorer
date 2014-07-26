@@ -1,1 +1,3 @@
-var deepCopy = function (x) {return $.extend(true,[],x)};
+var deepCopy = function (x) {
+    var target = (x instanceof Array)? [] : {}; // either create a deepcopy of an array or an object
+    return $.extend(true,target,x)};
