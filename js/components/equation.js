@@ -23,11 +23,10 @@ var transform = function (x) {
 var Equation = React.createClass({
     getInitialState: function() {
         MathJax.Hub.Config({messageStyle: "none",tex2jax:{inlineMath:[['$','$'],['\\(','\\)']]}});
-        return {active: true,
-               params: {A:1,
-                       f:2,
-                       phi: 3,
-                       B: 4},
+        return {params: {A:1,
+                         f:2,
+                         phi: 3,
+                         B: 4},
                paramSymbols: {A: "A",
                              f: "f",
                              phi: "\\phi",
@@ -55,7 +54,7 @@ var Equation = React.createClass({
             t.setState(state)
         };
         var getDisplayValue = function (key) {
-            return t.state.active? t.state.params[key] : t.state.paramSymbols[key];
+            return t.props.numeric? t.state.params[key] : t.state.paramSymbols[key];
         };
         var A = <Variable 
                 value={getDisplayValue("A")}
@@ -88,12 +87,7 @@ var Equation = React.createClass({
                 format={eqFormat}
                 transformation={transform}
                 callback={callback.bind(null, "B")}
-                />;                    
-
-        
-        var eqSymbolic = "$Asin(f \theta + \phi) + B$"; 
-        
-        
+                />;
         return (
             <div id="equation" onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave}>
                 $f(\theta)=$ {A} $sin (${f} $\theta+$ {phi}$)+$ {B}
@@ -104,7 +98,7 @@ var Equation = React.createClass({
 
 
 React.renderComponent(
-    <Equation/>,
+    <Equation numeric={true}/>,
     document.getElementById('content')
 );
     
