@@ -9,12 +9,6 @@ var App = React.createClass({
             options:{
                 color: "white",
                 lineWidth: 5
-            }},
-            {x: refData.x,
-            y: refData.y,
-            options:{
-                color: "white",
-                lineWidth: 5
             }}
         ]};
     },
