@@ -1,0 +1,1 @@
+var deepCopy = function (x) {return $.extend(true,[],x)};

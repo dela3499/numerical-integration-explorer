@@ -1,9 +1,5 @@
 /** @jsx React.DOM */
 
-var round = function (x,n) {
-    return Math.floor(x * Math.pow(10,n)) * Math.pow(10,-n);
-};
-
 var eqFormat = function (x) {
     return "$" + x + "$";
 };
@@ -17,8 +13,6 @@ var transform = function (x) {
     */
     return parseFloat(parseFloat(x).toFixed(0)); 
 };
-
-
 
 var Equation = React.createClass({
     getInitialState: function() {
@@ -95,13 +89,6 @@ var Equation = React.createClass({
         );
     }
 });
-
-
-React.renderComponent(
-    <Equation numeric={true}/>,
-    document.getElementById('content')
-);
-    
 
 
 
