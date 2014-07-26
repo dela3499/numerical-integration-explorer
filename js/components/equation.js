@@ -18,9 +18,9 @@ var Equation = React.createClass({
     getInitialState: function() {
         MathJax.Hub.Config({messageStyle: "none",tex2jax:{inlineMath:[['$','$'],['\\(','\\)']]}});
         return {params: {A:1.0,
-                         f:2.0,
-                         phi: 3.0,
-                         B: 4.0},
+                         f:1.0,
+                         phi: 0.0,
+                         B: 0.0},
                paramSymbols: {A: "A",
                              f: "f",
                              phi: "\\phi",
