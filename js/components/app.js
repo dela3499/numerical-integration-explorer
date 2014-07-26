@@ -2,14 +2,21 @@
 
 var App = React.createClass({
     getInitialState: function () {
-        console.log("getInitialState");
-        return {data: {
-            x:[],
+        var refData = this.sinFunc({A:1,f:1,phi:0,B:0});
+        return {data: [
+            {x:[],
             y:[],
             options:{
                 color: "white",
                 lineWidth: 5
-            }}};
+            }},
+            {x: refData.x,
+            y: refData.y,
+            options:{
+                color: "white",
+                lineWidth: 5
+            }}
+        ]};
     },
     sinFunc: function (params) {
         var A = params.A || 0,
@@ -26,7 +33,7 @@ var App = React.createClass({
     render: function () {
         return (
             <div>
-                <Graph data={[this.state.data]} size={500}/>
+                <Graph data={this.state.data} size={500}/>
                 <Equation numeric={true} callback={this.handleParamUpdate} />
             </div>
         );
@@ -35,9 +42,8 @@ var App = React.createClass({
         var t = this;
         var state = deepCopy(this.state);
         xyData = this.sinFunc(params);
-        console.log(params.f);
-        state.data.x = xyData.x;
-        state.data.y = xyData.y;
+        state.data[0].x = xyData.x;
+        state.data[0].y = xyData.y;
         this.setState(state);
     }
 });

@@ -23,12 +23,15 @@ var fitDataToCanvas = function (dataGroup,canvasWidth,canvasHeight) {
 
 var rescale = function (dataGroup, canvasWidth, canvasHeight) {
     // rescale x and y to move upper right corner to (1,1)
-    var xScale = dataGroup.map(function (dataSet) {return dataSet.x.max() - dataSet.x.min()}).max(), // find smallest x value in datasets
-        yScale = dataGroup.map(function (dataSet) {return dataSet.y.max() - dataSet.y.min()}).max(); // find smallest y value in datasets    
+    var xRange = dataGroup.map(function (dataSet) {return dataSet.x.max() - dataSet.x.min()}).max(), // find smallest x value in datasets
+        yRange = dataGroup.map(function (dataSet) {return dataSet.y.max() - dataSet.y.min()}).max(); // find smallest y value in datasets    
     var newDataGroup = deepCopy(dataGroup);
     for (var i = 0; i < newDataGroup.length; i++) {
-        newDataGroup[i].x = newDataGroup[i].x.scale((canvasWidth - 2*canvasMargin)/xScale);
-        newDataGroup[i].y = newDataGroup[i].y.scale((canvasHeight - 2*canvasMargin)/yScale);
+        newDataGroup[i].x = newDataGroup[i].x.scale((canvasWidth - 2*canvasMargin)/xRange);
+        // Divides by zero if yRange is zero (function is a flat line)
+//        if (yRange > 1e-4) {
+            newDataGroup[i].y = newDataGroup[i].y.scale((canvasHeight - 2*canvasMargin)/yRange);
+//        };
     };    
     return newDataGroup;
 };
