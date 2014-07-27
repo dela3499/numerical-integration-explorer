@@ -1,0 +1,2 @@
+## Numerical Integration Explorer
+This visualization is inspired by Bret Victor's [Explorable Explanations](http://worrydream.com/ExplorableExplanations/). It also makes use of [React](http://facebook.github.io/react/), [MathJax](http://www.mathjax.org/), and  my [Variable](https://github.com/dela3499/variable-react) React component.
