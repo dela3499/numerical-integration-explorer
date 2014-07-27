@@ -106,10 +106,13 @@ var App = React.createClass({
                 <div className="explanation-container">
                     <div className="explanation">
                         <h1>Get a feel for numerical integration!</h1>
-                        <p>Play with the function on the right by dragging its parameters. </p> 
-                        <p>The small plots show the error for each integration technique as its resolution improves (and it evaluates the function in more locations).</p>
-                        <p>In this case, I'm using log relative error, which is found with the formula:</p>
-                        {"$ log_{10} \\left( abs \\left( \\frac {\\int  f(\\theta)_{computed} - \\int  f(\\theta)_{exact}}{\\int  f(\\theta)_{exact}}\\right) \\right)$"}
+                        <p>Play with the function on the right by dragging its parameters up or down. </p> 
+                        <p>The smaller plots at the bottom show the error for each method. Specifically, they show the log of the relative error vs. the number of function evaluations. 
+        </p><p>Take the first plot, for instance. It's showing the error for the Midpoint approximation method. At the beginning, only a single function evaluation is used. As you move right on the graph, more function evaluation are used (so the subinterval width, $h$, decreases) and the error drops off.</p>
+            <p>The decline in error is common to all methods, but notice that the rate of decline seems to increase as you move from the Midpoint method to the Romberg method.  </p>
+            <p>Is this always the case? Is there some function where the Romberg method isn't the most accurate? </p>
+            <p>It turns that there is. Try moving the frequency (the number right after $sin$) to $5$. In this case, Simpson's rule seems more accurate, if only by a bit.</p>
+            <p>Feel free to play with the function parameters to gain a feel for which ones affect the integration algorithms the most. (Hint: it's frequency!)</p>
                     </div>
                 </div>
                 <div className="controls-container">
