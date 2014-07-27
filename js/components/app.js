@@ -42,63 +42,88 @@ var App = React.createClass({
         return data;
     },
     getTrapezoidData: function () {
-        var n = arrayRange(1,50,1);
-        var errors = [];
+        var n = arrayRange(1,70,1);
+        var Is = [];
         for (var i = 0; i < n.length; i++) {
-            var func = this.sinFunc.bind(this,this.state.params);
-            errors.push(symbolic(this.state.xRange,this.state.params) - trapezoid(0, this.state.xRange, n[i], func).I);
+            var func = this.sinFunc.bind(this,this.state.params),
+                res = trapezoid(0, this.state.xRange, n[i], func);
+            Is.push(res.I);
         };
+        var errors = this.getError(Is);
+        console.log()
         return {x:n, y:errors, options:{}};
     },  
     getMidpointData: function () {
-        var n = arrayRange(0,50,2);
-        var errors = [];
+        var n = arrayRange(0,70,2);
+        var Is = [];
         for (var i = 0; i < n.length; i++) {
-            var func = this.sinFunc.bind(this,this.state.params);
-            errors.push(symbolic(this.state.xRange,this.state.params) - midpoint(0, this.state.xRange, n[i], func).I);
+            var func = this.sinFunc.bind(this,this.state.params),
+                res = midpoint(0, this.state.xRange, n[i], func);
+            Is.push(res.I);
         };
+        var errors = this.getError(Is);
         return {x:n, y:errors, options:{}};
     },      
     
     getSimpsonData: function () {
-        var n = arrayRange(2,50,2);
-        var errors = [];
+        var n = arrayRange(2,70,2);
+        var Is = [];
         for (var i = 0; i < n.length; i++) {
-            var func = this.sinFunc.bind(this,this.state.params);
-            errors.push(symbolic(this.state.xRange,this.state.params) - simpson(0, this.state.xRange, n[i], func).I);
+            var func = this.sinFunc.bind(this,this.state.params),
+                res = simpson(0, this.state.xRange, n[i], func);
+            Is.push(res.I);
         };
+        var errors = this.getError(Is);
         return {x:n, y:errors, options:{}};
     },  
     getRombergData: function () {
-        var n = arrayRange(1,50,5);
-        var errors = [];
+//        var n = arrayRange(1,50,3);
+        var n = arrayRange(1,7,1);
+        var Is = [];
         for (var i = 0; i < n.length; i++) {
-            var func = this.sinFunc.bind(this,this.state.params);
-            errors.push(symbolic(this.state.xRange,this.state.params) - romberg(0, this.state.xRange, n[i], func).I);
+            var func = this.sinFunc.bind(this,this.state.params),
+                res = romberg(0, this.state.xRange, n[i], func);
+            Is.push(res.I);
+            console.log(res.evals.length);
         };
-        console.log("finished");
-        return {x:n, y:errors, options:{}};
+        var errors = this.getError(Is);
+        return {x:[2,3,5,9,17,33,65], y:errors, options:{}};
     },      
+    getError: function (x) {
+        /* return logscale relative error */
+        var errors = [];
+        for (var i = 0; i < x.length; i++) {
+            var actualValue = symbolic(this.state.xRange,this.state.params);
+            var e =  Math.abs((actualValue- x[i])/actualValue);
+            errors.push(Math.log(e)/Math.log(10));
+        };
+        return errors;
+    },
     render: function () {
-        var bounds = [-5,55,-20,20];
+        var bounds = [-5,75,-10,4],
+            size = 87.5;
         return (
             <div>
                 <div className="f-wrapper">
-                    <Graph className="f" data={[this.state.data]} size={350} bounds={[0,5*Math.PI,-10,10]}/>
+                    <Graph className="f" data={[this.state.data]} size={350} bounds={[-1,5*Math.PI+1,-11,11]}/>
                     <Equation numeric={true} callback={this.handleParamUpdate} />
                 </div>
                 <div className="wrapper">
-                    <Graph className="trapezoid" data={[this.getTrapezoidData()]} size={200} bounds={bounds}/>
                     <div className="label">$Trapezoid$</div>
+                    <Graph className="trapezoid" data={[this.getTrapezoidData()]} size={size} bounds={bounds}/>
                 </div>
                 <div className="wrapper">
-                    <Graph className="midpoint" data={[this.getMidpointData()]} size={200} bounds={bounds}/>
                     <div className="label">$Midpoint$</div>
+                    <Graph className="midpoint" data={[this.getMidpointData()]} size={size} bounds={bounds}/>
                 </div>
                 <div className="wrapper">
-                    <Graph className="simpson" data={[this.getSimpsonData()]} size={200} bounds={bounds}/>
                     <div className="label">$Simpson's$</div>
+                    <Graph className="simpson" data={[this.getSimpsonData()]} size={size} bounds={bounds}/>
                 </div>
+                <div className="wrapper">
+                    <div className="label">$Romberg$</div>
+                    <Graph className="romberg" data={[this.getRombergData()]} size={size} bounds={bounds}/>
+                </div>                    
             </div>
         );
     },
