@@ -8,6 +8,9 @@ body {
     font-family: raleway;
     color: #ccc;
     background: rgba(235, 235, 235, 0.62);
+    background: rgb(0, 0, 0);
+    background: url(img/png/49.png);
+    
     text-align: center;
     
 }
@@ -25,13 +28,10 @@ body {
 }
     
 .controls {
-    width: 350px;
+    width: 500px;
     margin: 0 auto;
     box-sizing: border-box;
-    margin-top:7em;
-/*    height: 100vh;*/
-/*    box-sizing: border-box;*/
-/*    padding-top: 3em;*/
+    margin-top:2em;
 }
 
 .variable {
@@ -42,7 +42,7 @@ canvas.f {
 }
 
 .f-wrapper {
-    width: 350px;
+    width: 500;
     background: rgba(33, 123, 123, 0.97);
 }
 .f-wrapper .equation {
@@ -51,12 +51,12 @@ canvas.f {
     background: rgba(1, 16, 23, 0.53)
 }
 .wrapper {
-    width: 87.5px;
+    width: 125px;
     float: left;
     background: rgba(33, 123, 123, 0.97);
 }
 .wrapper .label {
-    font-size: 0.7em;
+    font-size: 1em;
     background: rgba(1, 16, 23, 0.53);
     padding-top: 1em;
     padding-bottom: 1.2em;
@@ -67,8 +67,10 @@ canvas.f {
 .explanation-container {
     margin: 0;
     height: 100vh;
-    color: rgba(83, 50, 50, 0.69);
-    background: url(img/png/19.png);
+    color: rgba(0, 0, 0, 0.69);
+    font-family: sans-serif;
+    background: #e3e3e3;
+    background: url(img/png/18.png);
     box-sizing: border-box;
     padding: 4em;
     float: left;
@@ -78,7 +80,7 @@ canvas.f {
 }
 
 .explanation h1 {
-    color: #9b3939;
+    color: #3e3d3d;
     font-size: 2em;
     padding: 0;
     margin: 0;

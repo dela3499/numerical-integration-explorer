@@ -11,7 +11,7 @@ var App = React.createClass({
                     x: initData.x,
                     y: initData.y,
                     options:{
-                        color: "white",
+                        color: "#2b365c",
                         lineWidth: 3
                         }   
                     },
@@ -100,7 +100,7 @@ var App = React.createClass({
     },
     render: function () {
         var bounds = [-5,75,-10,4],
-            size = 87.5;
+            size = 125;
         return (
             <div>
                 <div className="explanation-container">
@@ -115,7 +115,7 @@ var App = React.createClass({
                 <div className="controls-container">
                     <div className="controls">
                         <div className="f-wrapper">
-                            <Graph className="f" data={[this.state.data]} size={350} bounds={[-1,5*Math.PI+1,-11,11]}/>
+                            <Graph className="f" data={[this.state.data]} size={500} bounds={[-1,5*Math.PI+1,-11,11]}/>
                             <Equation numeric={true} callback={this.handleParamUpdate} />
                         </div>
                         <div className="wrapper">
