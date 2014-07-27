@@ -103,35 +103,38 @@ var App = React.createClass({
             size = 87.5;
         return (
             <div>
-                <div className="explanation-container clearfix">
+                <div className="explanation-container">
                     <div className="explanation">
                         <h1>Get a feel for numerical integration!</h1>
-                        Play with the function below (by dragging its parameters) to see how accurate each integration method is.
-                        These show log relative error:
-        {"$ log_{10} \\left( abs \\left( \\frac {\\int  f(\\theta)_{computed} - \\int  f(\\theta)_{exact}}{\\int  f(\\theta)_{exact}}\\right) \\right)$"}
+                        <p>Play with the function on the right by dragging its parameters. </p> 
+                        <p>The small plots show the error for each integration technique as its resolution improves (and it evaluates the function in more locations).</p>
+                        <p>In this case, I'm using log relative error, which is found with the formula:</p>
+                        {"$ log_{10} \\left( abs \\left( \\frac {\\int  f(\\theta)_{computed} - \\int  f(\\theta)_{exact}}{\\int  f(\\theta)_{exact}}\\right) \\right)$"}
                     </div>
                 </div>
-                <div className="controls">
-                    <div className="f-wrapper">
-                        <Graph className="f" data={[this.state.data]} size={350} bounds={[-1,5*Math.PI+1,-11,11]}/>
-                        <Equation numeric={true} callback={this.handleParamUpdate} />
+                <div className="controls-container">
+                    <div className="controls">
+                        <div className="f-wrapper">
+                            <Graph className="f" data={[this.state.data]} size={350} bounds={[-1,5*Math.PI+1,-11,11]}/>
+                            <Equation numeric={true} callback={this.handleParamUpdate} />
+                        </div>
+                        <div className="wrapper">
+                            <Graph className="midpoint" data={[this.getMidpointData()]} size={size} bounds={bounds}/>
+                            <div className="label">$Midpoint$</div>
+                        </div>            
+                        <div className="wrapper">
+                            <Graph className="trapezoid" data={[this.getTrapezoidData()]} size={size} bounds={bounds}/>
+                            <div className="label">$Trapezoid$</div>
+                        </div>
+                        <div className="wrapper">
+                            <Graph className="simpson" data={[this.getSimpsonData()]} size={size} bounds={bounds}/>
+                            <div className="label">$Simpson's$</div>
+                        </div>
+                        <div className="wrapper">
+                            <Graph className="romberg" data={[this.getRombergData()]} size={size} bounds={bounds}/>
+                            <div className="label">$Romberg$</div>
+                        </div>       
                     </div>
-                    <div className="wrapper">
-                        <Graph className="midpoint" data={[this.getMidpointData()]} size={size} bounds={bounds}/>
-                        <div className="label">$Midpoint$</div>
-                    </div>            
-                    <div className="wrapper">
-                        <Graph className="trapezoid" data={[this.getTrapezoidData()]} size={size} bounds={bounds}/>
-                        <div className="label">$Trapezoid$</div>
-                    </div>
-                    <div className="wrapper">
-                        <Graph className="simpson" data={[this.getSimpsonData()]} size={size} bounds={bounds}/>
-                        <div className="label">$Simpson's$</div>
-                    </div>
-                    <div className="wrapper">
-                        <Graph className="romberg" data={[this.getRombergData()]} size={size} bounds={bounds}/>
-                        <div className="label">$Romberg$</div>
-                    </div>       
                 </div>
             </div>
         );

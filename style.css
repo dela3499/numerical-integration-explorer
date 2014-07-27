@@ -11,19 +11,27 @@ body {
     text-align: center;
     
 }
+
 #content {
-    position: relative;
     margin: 0 auto;
     width: 100vw;
     box-sizing: border-box;
 }
 
+.controls-container {
+    float:left;
+    width: 70%;
+    height: 100%;
+}
+    
 .controls {
     width: 350px;
     margin: 0 auto;
-    height: 100vh;
     box-sizing: border-box;
-    padding-top: 3em;
+    margin-top:7em;
+/*    height: 100vh;*/
+/*    box-sizing: border-box;*/
+/*    padding-top: 3em;*/
 }
 
 .variable {
@@ -63,17 +71,15 @@ canvas.f {
     background: url(img/png/19.png);
     box-sizing: border-box;
     padding: 4em;
-    
-}
-
-.explanation {
+    float: left;
+    width: 30vw;
     text-align: left;
-    width: 400px;
+    
 }
 
 .explanation h1 {
     color: #9b3939;
-    font-size: 1.5em;
+    font-size: 2em;
     padding: 0;
     margin: 0;
 }
