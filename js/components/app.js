@@ -103,11 +103,13 @@ var App = React.createClass({
             size = 87.5;
         return (
             <div>
-                <div className="explanation">
+                <div className="explanation-container clearfix">
+                    <div className="explanation">
                         <h1>Get a feel for numerical integration!</h1>
                         Play with the function below (by dragging its parameters) to see how accurate each integration method is.
                         These show log relative error:
         {"$ log_{10} \\left( abs \\left( \\frac {\\int  f(\\theta)_{computed} - \\int  f(\\theta)_{exact}}{\\int  f(\\theta)_{exact}}\\right) \\right)$"}
+                    </div>
                 </div>
                 <div className="controls">
                     <div className="f-wrapper">

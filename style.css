@@ -7,32 +7,35 @@ body {
     user-select: none;
     font-family: raleway;
     color: #ccc;
-    background: #22303b;
+    background: rgba(235, 235, 235, 0.62);
     text-align: center;
+    
 }
-
 #content {
     position: relative;
     margin: 0 auto;
-    margin-top: 3em;
+    width: 100vw;
+    box-sizing: border-box;
 }
 
 .controls {
-/*    position: absolute;*/
-/*    right: 0;    */
-    float: left;
+    width: 350px;
+    margin: 0 auto;
+    height: 100vh;
+    box-sizing: border-box;
+    padding-top: 3em;
 }
 
 .variable {
     border-bottom: solid 2px rgba(255, 255, 255, 0.11);
 }
 canvas.f {
-    background: rgba(33, 123, 123, 0.8);
+    background: rgba(255, 255, 255, 0.8);
 }
 
 .f-wrapper {
     width: 350px;
-        background: rgba(33, 123, 123, 0.97);
+    background: rgba(33, 123, 123, 0.97);
 }
 .f-wrapper .equation {
     font-size: 1em;
@@ -52,17 +55,27 @@ canvas.f {
     height: 1.0em;
 }
 
+
+.explanation-container {
+    margin: 0;
+    height: 100vh;
+    color: rgba(83, 50, 50, 0.69);
+    background: url(img/png/19.png);
+    box-sizing: border-box;
+    padding: 0em;
+    
+}
+
 .explanation {
-    float:left;
-    z-index: 1;
-    background: rgba(23, 48, 67, 0.94);
-    width: 200px;;
+    text-align: left;
+    width: 400px;
 }
 
 .explanation h1 {
+    color: #9b3939;
     font-size: 1.5em;
-    margin:0;
-    padding-bottom: 0.5em;
+    padding: 0;
+    margin: 0;
 }
 
 
