@@ -45,6 +45,16 @@ var centerAndScale = function (x,y,sideLength,percentage) {
     return {x:scaledX,y:scaledY};
 };
 
+var arrayRange = function (start,end,interval) {
+    /* produces array with entries spaced equally by interval, with none greater than end */
+    var x = [],
+        n = Math.floor((end-start)/interval) + 1;
+    for (var i = 0; i < n; i++) {
+        x.push(start + i * interval);
+    };
+    return x;
+};
+
 
 
 

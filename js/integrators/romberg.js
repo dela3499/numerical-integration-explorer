@@ -9,6 +9,9 @@ var romberg = function (a,b,n,func) {
         r = [[],[]],
         x;
     r[0][0] = (h/2)*(f(a) + f(b));
+    if (n < 2) {
+        return {I: r[0][0], evals: evaluations};
+    };
     for (var i = 2; i < n + 1; i++) {
         var t = 0;
         for (var k = 1; k < Math.pow(2,i-2) + 1; k++) {
@@ -26,4 +29,4 @@ var romberg = function (a,b,n,func) {
     return {I: r[1][n-1], evals: evaluations};
 };
 
-console.log(romberg(0,Math.PI,6,Math.sin));
+//console.log(romberg(0,Math.PI,6,Math.sin));

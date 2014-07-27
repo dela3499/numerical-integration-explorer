@@ -42,22 +42,62 @@ var App = React.createClass({
         return data;
     },
     getTrapezoidData: function () {
-        var I = [];
-//        xVals = this.state.data.x;
-        xVals = linspace(0,this.state.xRange,100);
-        for (var i = 0; i < xVals.length; i++) {
+        var n = arrayRange(1,20,1);
+        var errors = [];
+        for (var i = 0; i < n.length; i++) {
             var func = this.sinFunc.bind(this,this.state.params);
-            I.push(trapezoid(xVals[0], xVals[i], 10, func).I);
+            errors.push(symbolic(this.state.xRange,this.state.params) - trapezoid(0, this.state.xRange, n[i], func).I);
         };
-        console.log(["trap", xVals, I]);
-        return {x:xVals,y:I,options:{}};
+        return {x:n, y:errors, options:{}};
     },  
+    getMidpointData: function () {
+        var n = arrayRange(0,30,2);
+        var errors = [];
+        for (var i = 0; i < n.length; i++) {
+            var func = this.sinFunc.bind(this,this.state.params);
+            errors.push(symbolic(this.state.xRange,this.state.params) - midpoint(0, this.state.xRange, n[i], func).I);
+        };
+        return {x:n, y:errors, options:{}};
+    },      
+    
+    getSimpsonData: function () {
+        var n = arrayRange(2,30,2);
+        var errors = [];
+        for (var i = 0; i < n.length; i++) {
+            var func = this.sinFunc.bind(this,this.state.params);
+            errors.push(symbolic(this.state.xRange,this.state.params) - simpson(0, this.state.xRange, n[i], func).I);
+        };
+        return {x:n, y:errors, options:{}};
+    },  
+    getRombergData: function () {
+        var n = arrayRange(1,30,5);
+        var errors = [];
+        for (var i = 0; i < n.length; i++) {
+            var func = this.sinFunc.bind(this,this.state.params);
+            errors.push(symbolic(this.state.xRange,this.state.params) - romberg(0, this.state.xRange, n[i], func).I);
+        };
+        console.log("finished");
+        return {x:n, y:errors, options:{}};
+    },      
     render: function () {
         return (
             <div>
-                <Graph data={[this.state.data]} size={200} fixCenter={true}/>
-                <Graph data={[this.getTrapezoidData()]} size={200}/>
-                <Equation numeric={true} callback={this.handleParamUpdate} />
+                <div className="f-wrapper">
+                    <Graph className="f" data={[this.state.data]} size={350} fixCenter={true}/>
+                    <Equation numeric={true} callback={this.handleParamUpdate} />
+                </div>
+                <div className="wrapper">
+                    <Graph className="trapezoid" data={[this.getTrapezoidData()]} size={200} fixCenter={true}/>
+                    <div className="label">$Trapezoid$</div>
+                </div>
+                <div className="wrapper">
+                    <Graph className="midpoint" data={[this.getMidpointData()]} size={200} fixCenter={true}/>
+                    <div className="label">$Midpoint$</div>
+                </div>
+                <div className="wrapper">
+                    <Graph className="simpson" data={[this.getSimpsonData()]} size={200} fixCenter={true}/>
+                    <div className="label">$Simpson's$</div>
+                </div>
             </div>
         );
     },

@@ -6,10 +6,9 @@ body {
     -ms-user-select: none;
     user-select: none;
     font-family: raleway;
-    font-size: 4.0vw;
     color: #ccc;
     background: #22303b;
-    margin-top: 4vh;
+/*    margin-top: 4vh;*/
     text-align: center;
 }
 
@@ -17,15 +16,29 @@ body {
     border-bottom: solid 2px rgba(255, 255, 255, 0.11);
 }
 
-.equation {
-    padding: 30px;
-}
 canvas {
     background: rgba(128, 128, 128, 0.08);
-/*    padding: 50px;*/
-    border-bottom: rgba(172, 172, 172, 0.67) 8px solid;
-    /*
-    width: 500px;
-    height: 500px;
-*/
+}
+
+canvas.f {
+    background: rgba(33, 123, 123, 0.8);
+}
+
+.f-wrapper {
+    width: 350px;
+}
+.f-wrapper .equation {
+    font-size: 1em;
+    padding: 1em 0em;
+    background: rgba(1, 16, 23, 0.53)
+}
+.wrapper {
+    width: 200px;
+    float: left;
+}
+.wrapper .label {
+    padding-top: 1em;
+    padding-bottom: 0.8em;
+    background: rgba(1, 16, 23, 0.19);
+    text-emphasis: capitalize;
 }

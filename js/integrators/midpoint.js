@@ -1,4 +1,8 @@
-var midpoint = function (a,b,n,func) {
+var midpoint = function (a,b,n,func) {    
+    // n must be even
+    if (n % 2 !== 0) { // n is odd
+        throw("midpoint: n must be an even integer");
+    };
     var evaluations = [];
     var f = function (x) {
         var ret = func(x);
@@ -16,13 +20,13 @@ var midpoint = function (a,b,n,func) {
         };
     };
     xi = 2*h * xi1;
-    return {i:xi,evals:evaluations};
+    return {I:xi,evals:evaluations};
 };      
 
-var a = 0,
-    b = Math.PI,
-    n = 0,
-    f = Math.sin;
-
-var I = midpoint(a,b,n,f);
-console.log(['midpoint',I]);
+//var a = 0,
+//    b = Math.PI,
+//    n = 0,
+//    f = Math.sin;
+//
+//var I = midpoint(a,b,n,f);
+//console.log(['midpoint',I]);

@@ -4,6 +4,10 @@ var symbolic = function (theta,params) {
         f = params.f,
         phi = params.phi,
         B = params.B;
-    
+    if (f < 1e-5) {
+        return B * theta;
+    } else {
     return B * theta - (A*Math.cos(f*theta + phi)/f) + (A*Math.cos(phi))/f;
+    };
+};
     

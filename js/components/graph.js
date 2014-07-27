@@ -10,7 +10,7 @@ var Graph = React.createClass({
     render: function () {
         return (
             <canvas 
-                className="graph"
+                className={"graph " + this.props.className}
                 height={this.props.size}
                 width={this.props.size}
             />
@@ -25,7 +25,6 @@ var Graph = React.createClass({
                 ),
             c = this.getDOMNode().getContext('2d');
         var t = this;
-        console.log("plotdata", t.props.fixCenter,plotData);
         c.clearRect(0,0,this.props.size,this.props.size);
         // Plot each dataset
         for (var i = 0; i < plotData.length; i++) {

@@ -1,4 +1,8 @@
 var simpson = function (a,b,n,func) {
+    // n must be even
+    if (n % 2 !== 0) {
+        throw("simpson: n must be an even integer");
+    };
     var evaluations = [];
     var f = function (x) {
         var ret = func(x);
@@ -23,10 +27,10 @@ var simpson = function (a,b,n,func) {
     return {I:xi,evals:evaluations};
 };
 
-var a = 0,
-    b = Math.PI,
-    n = 400,
-    f = Math.sin;
-
-var I = simpson(a,b,n,f);
-console.log(I);
+//var a = 0,
+//    b = Math.PI,
+//    n = 400,
+//    f = Math.sin;
+//
+//var I = simpson(a,b,n,f);
+//console.log(I);
