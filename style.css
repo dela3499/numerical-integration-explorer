@@ -12,8 +12,15 @@ body {
 }
 
 #content {
-    width: 350px;
+    position: relative;
     margin: 0 auto;
+    margin-top: 3em;
+}
+
+.controls {
+/*    position: absolute;*/
+/*    right: 0;    */
+    float: left;
 }
 
 .variable {
@@ -25,6 +32,7 @@ canvas.f {
 
 .f-wrapper {
     width: 350px;
+        background: rgba(33, 123, 123, 0.97);
 }
 .f-wrapper .equation {
     font-size: 1em;
@@ -32,15 +40,48 @@ canvas.f {
     background: rgba(1, 16, 23, 0.53)
 }
 .wrapper {
-    border-top: 0.5em solid #ccc;
     width: 87.5px;
     float: left;
+    background: rgba(33, 123, 123, 0.97);
 }
 .wrapper .label {
     font-size: 0.7em;
     background: rgba(1, 16, 23, 0.53);
-    background: rgba(33, 123, 123, 0.8);
     padding-top: 1em;
     padding-bottom: 1.2em;
     height: 1.0em;
 }
+
+.explanation {
+    float:left;
+    z-index: 1;
+    background: rgba(23, 48, 67, 0.94);
+    width: 200px;;
+}
+
+.explanation h1 {
+    font-size: 1.5em;
+    margin:0;
+    padding-bottom: 0.5em;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
