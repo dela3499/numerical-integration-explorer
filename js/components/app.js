@@ -42,7 +42,7 @@ var App = React.createClass({
         return data;
     },
     getTrapezoidData: function () {
-        var n = arrayRange(1,20,1);
+        var n = arrayRange(1,50,1);
         var errors = [];
         for (var i = 0; i < n.length; i++) {
             var func = this.sinFunc.bind(this,this.state.params);
@@ -51,7 +51,7 @@ var App = React.createClass({
         return {x:n, y:errors, options:{}};
     },  
     getMidpointData: function () {
-        var n = arrayRange(0,30,2);
+        var n = arrayRange(0,50,2);
         var errors = [];
         for (var i = 0; i < n.length; i++) {
             var func = this.sinFunc.bind(this,this.state.params);
@@ -61,7 +61,7 @@ var App = React.createClass({
     },      
     
     getSimpsonData: function () {
-        var n = arrayRange(2,30,2);
+        var n = arrayRange(2,50,2);
         var errors = [];
         for (var i = 0; i < n.length; i++) {
             var func = this.sinFunc.bind(this,this.state.params);
@@ -70,7 +70,7 @@ var App = React.createClass({
         return {x:n, y:errors, options:{}};
     },  
     getRombergData: function () {
-        var n = arrayRange(1,30,5);
+        var n = arrayRange(1,50,5);
         var errors = [];
         for (var i = 0; i < n.length; i++) {
             var func = this.sinFunc.bind(this,this.state.params);
@@ -80,22 +80,23 @@ var App = React.createClass({
         return {x:n, y:errors, options:{}};
     },      
     render: function () {
+        var bounds = [-5,55,-20,20];
         return (
             <div>
                 <div className="f-wrapper">
-                    <Graph className="f" data={[this.state.data]} size={350} fixCenter={true}/>
+                    <Graph className="f" data={[this.state.data]} size={350} bounds={[0,5*Math.PI,-10,10]}/>
                     <Equation numeric={true} callback={this.handleParamUpdate} />
                 </div>
                 <div className="wrapper">
-                    <Graph className="trapezoid" data={[this.getTrapezoidData()]} size={200} fixCenter={true}/>
+                    <Graph className="trapezoid" data={[this.getTrapezoidData()]} size={200} bounds={bounds}/>
                     <div className="label">$Trapezoid$</div>
                 </div>
                 <div className="wrapper">
-                    <Graph className="midpoint" data={[this.getMidpointData()]} size={200} fixCenter={true}/>
+                    <Graph className="midpoint" data={[this.getMidpointData()]} size={200} bounds={bounds}/>
                     <div className="label">$Midpoint$</div>
                 </div>
                 <div className="wrapper">
-                    <Graph className="simpson" data={[this.getSimpsonData()]} size={200} fixCenter={true}/>
+                    <Graph className="simpson" data={[this.getSimpsonData()]} size={200} bounds={bounds}/>
                     <div className="label">$Simpson's$</div>
                 </div>
             </div>

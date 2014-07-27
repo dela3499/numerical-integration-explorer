@@ -21,7 +21,7 @@ var Graph = React.createClass({
                 this.props.data,
                 this.props.size,
                 this.props.size,
-                this.props.fixCenter
+                this.props.bounds
                 ),
             c = this.getDOMNode().getContext('2d');
         var t = this;
