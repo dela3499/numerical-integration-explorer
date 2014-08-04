@@ -36,53 +36,34 @@ var App = React.createClass({
         return data;
         
     },
-    getTrapezoidData: function () {
-        var n = arrayRange(1,70,1);
-        var Is = [];
-        for (var i = 0; i < n.length; i++) {
-            var func = sinFunc.bind(this,this.state.params),
-                res = trapezoid(0, this.state.xRange, n[i], func);
-            Is.push(res.I);
+    getIntegral: function (method) {
+        var t = this;
+        var n = {trapezoid: arrayRange(1,69,1),
+                 midpoint:  arrayRange(0,140,2),
+                 simpson:   arrayRange(2,70,2),
+                 romberg:   arrayRange(1,7,1)};
+        
+        var Is = [], // integral approximations
+            fCounts = []; // function evaluation counts
+        
+        // Find approximations for each value of n
+        n[method].map(function(ni) {
+            var func = sinFunc.bind(t, t.state.params),
+                result = integrate(0,t.state.xRange, ni, func, method);
+            
+            Is.push(result.I); // collect approximations
+            fCounts.push(result.evals.length); // collect # of evals
+        });
+        
+        var errors = t.getError(Is);
+        console.log([method,n[method],fCounts])
+        return {
+            x: fCounts, 
+            y: errors, 
+            options: {}
         };
-        var errors = this.getError(Is);
-        console.log()
-        return {x:n, y:errors, options:{}};
-    },  
-    getMidpointData: function () {
-        var n = arrayRange(0,70,2);
-        var Is = [];
-        for (var i = 0; i < n.length; i++) {
-            var func = sinFunc.bind(this,this.state.params),
-                res = midpoint(0, this.state.xRange, n[i], func);
-            Is.push(res.I);
-        };
-        var errors = this.getError(Is);
-        return {x:n, y:errors, options:{}};
-    },      
     
-    getSimpsonData: function () {
-        var n = arrayRange(2,70,2);
-        var Is = [];
-        for (var i = 0; i < n.length; i++) {
-            var func = sinFunc.bind(this,this.state.params),
-                res = simpson(0, this.state.xRange, n[i], func);
-            Is.push(res.I);
-        };
-        var errors = this.getError(Is);
-        return {x:n, y:errors, options:{}};
-    },  
-    getRombergData: function () {
-//        var n = arrayRange(1,50,3);
-        var n = arrayRange(1,7,1);
-        var Is = [];
-        for (var i = 0; i < n.length; i++) {
-            var func = sinFunc.bind(this,this.state.params),
-                res = romberg(0, this.state.xRange, n[i], func);
-            Is.push(res.I);
-        };
-        var errors = this.getError(Is);
-        return {x:[2,3,5,9,17,33,65], y:errors, options:{}};
-    },      
+    },    
     getError: function (x) {
         /* return logscale relative error */
         var errors = [];
@@ -117,19 +98,19 @@ var App = React.createClass({
                             <Equation callback={this.handleParamUpdate} />
                         </div>
                         <div className="wrapper">
-                            <Graph className="midpoint" data={[this.getMidpointData()]} size={size} bounds={bounds}/>
+                            <Graph className="midpoint" data={[this.getIntegral('midpoint')]} size={size} bounds={bounds}/>
                             <div className="label">$Midpoint$</div>
                         </div>            
                         <div className="wrapper">
-                            <Graph className="trapezoid" data={[this.getTrapezoidData()]} size={size} bounds={bounds}/>
+                            <Graph className="trapezoid" data={[this.getIntegral('trapezoid')]} size={size} bounds={bounds}/>
                             <div className="label">$Trapezoid$</div>
                         </div>
                         <div className="wrapper">
-                            <Graph className="simpson" data={[this.getSimpsonData()]} size={size} bounds={bounds}/>
+                            <Graph className="simpson" data={[this.getIntegral('simpson')]} size={size} bounds={bounds}/>
                             <div className="label">$Simpson's$</div>
                         </div>
                         <div className="wrapper">
-                            <Graph className="romberg" data={[this.getRombergData()]} size={size} bounds={bounds}/>
+                            <Graph className="romberg" data={[this.getIntegral('romberg')]} size={size} bounds={bounds}/>
                             <div className="label">$Romberg$</div>
                         </div>       
                     </div>
