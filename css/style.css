@@ -9,7 +9,7 @@ body {
     color: #ccc;
     background: rgba(235, 235, 235, 0.62);
     background: rgb(0, 0, 0);
-    background: url(img/png/49.png);
+    background: url(../img/png/49.png);
     
     text-align: center;
     
@@ -70,7 +70,7 @@ canvas.f {
     color: rgba(0, 0, 0, 0.69);
     font-family: sans-serif;
     background: #e3e3e3;
-    background: url(img/png/18.png);
+    background: url(../img/png/18.png);
     box-sizing: border-box;
     padding: 4em;
     float: left;
