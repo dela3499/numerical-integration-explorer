@@ -2,10 +2,10 @@
         // TODO: move params into App state (or into stores to begin using Flux
 
 var sinFunc = function (params,x) {
-        var A = params.A || 1,
-            f = params.f || 1,
+        var A   = params.A   || 1,
+            f   = params.f   || 1,
             phi = params.phi || 0,
-            B = params.B || 0;
+            B   = params.B   || 0;
         return A * Math.sin(f * x + phi) + B;
 };
 
@@ -23,14 +23,18 @@ var App = React.createClass({
         };
     },
     evalSinFunc: function () {
-        var t = this,
+    /* evaluate sine function with locally-set parameters, and return plotting object */
+        
+        var t = this, // ugly, but need to maintain access to state
             data = {};
+        
         data.x = linspace(0, t.state.xRange,1000);
         data.y = data.x.map(function (xi) {
             return sinFunc(t.state.params, xi);
         });
-        data.options = t.state.plotOptions;
+        data.options = t.state.plotOptions; // add options object for plotting
         return data;
+        
     },
     getTrapezoidData: function () {
         var n = arrayRange(1,70,1);
