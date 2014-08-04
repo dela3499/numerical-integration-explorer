@@ -119,7 +119,7 @@ var App = React.createClass({
                     <div className="controls">
                         <div className="f-wrapper">
                             <Graph className="f" data={[this.state.data]} size={500} bounds={[-1,5*Math.PI+1,-11,11]}/>
-                            <Equation numeric={true} callback={this.handleParamUpdate} />
+                            <Equation callback={this.handleParamUpdate} />
                         </div>
                         <div className="wrapper">
                             <Graph className="midpoint" data={[this.getMidpointData()]} size={size} bounds={bounds}/>

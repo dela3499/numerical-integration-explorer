@@ -1,17 +1,11 @@
 /** @jsx React.DOM */
 
 var eqFormat = function (x) {
-    return "$" + x.toFixed(1) + "$";
+    return "$" + x.toFixed(1) + "$"; // display all parameters with a tenths place and use $ signs so MathJax renders it
 };
 
 var transform = function (x) {
-    /* need parseFloat to ensure toFixed operates on a number
-    for some reason, low values of x don't appear as numbers.
-    http://stackoverflow.com/questions/14059201/why-does-firebug-say-tofixed-is-not-a-function 
-    ---
-    Outer parsefloat required to make output a number.
-    */
-    return parseFloat(parseFloat(x).toFixed(1)); 
+    return parseFloat(parseFloat(x).toFixed(1)); // ugly, but makes sure input and output are numbers
 };
 
 var Equation = React.createClass({
@@ -20,11 +14,8 @@ var Equation = React.createClass({
         return {params: {A:1.0,
                          f:1.0,
                          phi: 0.0,
-                         B: 0.0},
-               paramSymbols: {A: "A",
-                             f: "f",
-                             phi: "\\phi",
-                             B: "B"}};
+                         B: 0.0}
+               };
     },
     componentDidMount: function (root) {
         MathJax.Hub.Queue(["Typeset",MathJax.Hub,root]);
@@ -32,24 +23,16 @@ var Equation = React.createClass({
     componentDidUpdate: function (props,state,root) {
         MathJax.Hub.Queue(["Typeset",MathJax.Hub,root]);
     },
-    handleMouseEnter: function () {
-//        this.setState({active: true});
-    },
-    handleMouseLeave: function () {
-//        this.setState({active: false});
-    },
     render: function() {
         var t = this;
         var callback = function (key,value) {
-            /* deep copy to avoid direct state mutation 
-            (http://stackoverflow.com/questions/122102/what-is-the-most-efficient-way-to-clone-an-object)*/
-            var state = deepCopy(t.state);
+            var state = deepCopy(t.state); // again, need to copy by value rather than reference
             state.params[key] = value;
-            t.props.callback(state.params);
-            t.setState(state);
+            t.props.callback(state.params); // update higher-level components, like the graphs
+            t.setState(state); // Update local display
         };
         var getDisplayValue = function (key) {
-            return t.props.numeric? t.state.params[key] : t.state.paramSymbols[key];
+            return t.state.params[key];
         };
         var A = <Variable 
                 value={getDisplayValue("A")}
