@@ -1,51 +1,42 @@
 /** @jsx React.DOM */
-
-//TODO: fix equation to replace + with - when subsequent parameter becomes negative.
-
-var App = React.createClass({
-    getInitialState: function () {
-        var xRange = 5*Math.PI,
-            initData = this.evalSinFunc({A:1,f:1,phi:0,B:0},xRange);
         // TODO: move params into App state (or into stores to begin using Flux
-        return {data: {
-                    x: initData.x,
-                    y: initData.y,
-                    options:{
-                        color: "#2b365c",
-                        lineWidth: 3
-                        }   
-                    },
-                xRange: xRange,
-                params: {
-                    A: 1,
-                    f: 1,
-                    phi: 0,
-                    B: 0
-                }
-                };
-    },
-    sinFunc: function (params,x) {
-        var A = params.A || 0,
-            f = params.f || 0,
+
+var sinFunc = function (params,x) {
+        var A = params.A || 1,
+            f = params.f || 1,
             phi = params.phi || 0,
             B = params.B || 0;
         return A * Math.sin(f * x + phi) + B;
+};
+
+var App = React.createClass({
+    /* Interactive tool for exploring numeric integration*/
+    
+    getInitialState: function () {
+        return {
+            plotOptions: {
+                color: "#2b365c",
+                lineWidth: 3
+            },
+            xRange: 5*Math.PI, // integrals will be evaluated over [0,xRange]
+            params: {A:1,f:1,phi:0,B:0}
+        };
     },
-    evalSinFunc: function (params,xRange) {
+    evalSinFunc: function () {
         var t = this,
-            data = {},
-            xRange = xRange || t.state.xRange;
-        data.x = linspace(0, xRange,1000);
+            data = {};
+        data.x = linspace(0, t.state.xRange,1000);
         data.y = data.x.map(function (xi) {
-            return t.sinFunc(params, xi);
+            return sinFunc(t.state.params, xi);
         });
+        data.options = t.state.plotOptions;
         return data;
     },
     getTrapezoidData: function () {
         var n = arrayRange(1,70,1);
         var Is = [];
         for (var i = 0; i < n.length; i++) {
-            var func = this.sinFunc.bind(this,this.state.params),
+            var func = sinFunc.bind(this,this.state.params),
                 res = trapezoid(0, this.state.xRange, n[i], func);
             Is.push(res.I);
         };
@@ -57,7 +48,7 @@ var App = React.createClass({
         var n = arrayRange(0,70,2);
         var Is = [];
         for (var i = 0; i < n.length; i++) {
-            var func = this.sinFunc.bind(this,this.state.params),
+            var func = sinFunc.bind(this,this.state.params),
                 res = midpoint(0, this.state.xRange, n[i], func);
             Is.push(res.I);
         };
@@ -69,7 +60,7 @@ var App = React.createClass({
         var n = arrayRange(2,70,2);
         var Is = [];
         for (var i = 0; i < n.length; i++) {
-            var func = this.sinFunc.bind(this,this.state.params),
+            var func = sinFunc.bind(this,this.state.params),
                 res = simpson(0, this.state.xRange, n[i], func);
             Is.push(res.I);
         };
@@ -81,7 +72,7 @@ var App = React.createClass({
         var n = arrayRange(1,7,1);
         var Is = [];
         for (var i = 0; i < n.length; i++) {
-            var func = this.sinFunc.bind(this,this.state.params),
+            var func = sinFunc.bind(this,this.state.params),
                 res = romberg(0, this.state.xRange, n[i], func);
             Is.push(res.I);
         };
@@ -118,7 +109,7 @@ var App = React.createClass({
                 <div className="controls-container">
                     <div className="controls">
                         <div className="f-wrapper">
-                            <Graph className="f" data={[this.state.data]} size={500} bounds={[-1,5*Math.PI+1,-11,11]}/>
+                            <Graph className="f" data={[this.evalSinFunc()]} size={500} bounds={[-1,5*Math.PI+1,-11,11]}/>
                             <Equation callback={this.handleParamUpdate} />
                         </div>
                         <div className="wrapper">
@@ -143,13 +134,7 @@ var App = React.createClass({
         );
     },
     handleParamUpdate: function (params) {
-        var t = this;
-        var state = deepCopy(this.state);
-        xyData = this.evalSinFunc(params);
-        state.data.x = xyData.x;
-        state.data.y = xyData.y;
-        state.params = params;
-        this.setState(state);
+        this.setState({params: params});
     }
 });
 //var flux = new Fluxxor.Flux(stores,actions);

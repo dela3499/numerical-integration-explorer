@@ -4,7 +4,7 @@ var Graph = React.createClass({
     componentDidMount: function () {   
         var canvas = this.getDOMNode(); 
         var stage = new createjs.Stage(canvas);
-        this.setState({stage:stage});
+        this.setState({stage:stage}); // provide access for later (avoids having to getDOMNode() on every draw() operation)
         this.draw();
     },
     componentDidUpdate: function () {
@@ -72,26 +72,3 @@ var Graph = React.createClass({
         };
     }           
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -74,4 +74,3 @@ var Equation = React.createClass({
         );
     }
 });
-
