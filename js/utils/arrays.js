@@ -1,4 +1,4 @@
-var arrayRange, centerAndScale, linspace;
+var arrayRange, linspace;
 
 Array.prototype.max = function() {
   " return largest element in array ";
@@ -33,36 +33,21 @@ Array.prototype.add = function(n) {
 
 linspace = function(start, end, n) {
   " return array with n regularly-space elements in range [start,end] ";
-  var i, interval, _i, _results;
+  var i, interval, _i, _ref, _results;
   interval = (end - start) / (n - 1);
   _results = [];
-  for (i = _i = 0; 0 <= n ? _i <= n : _i >= n; i = 0 <= n ? ++_i : --_i) {
+  for (i = _i = 0, _ref = n - 1; 0 <= _ref ? _i <= _ref : _i >= _ref; i = 0 <= _ref ? ++_i : --_i) {
     _results.push(start + interval * i);
   }
   return _results;
 };
 
-centerAndScale = function(x, y, sideLength, percentage) {
-  var innerSideLength, range, scaleFactor, scaledX, scaledY, xRange, yRange;
-  innerSideLength = sideLength * percentage;
-  xRange = x.max() - x.min();
-  yRange = y.max() - y.min();
-  range = Math.max(xRange, yRange);
-  scaleFactor = innerSideLength / range;
-  scaledX = scaleArray(x, scaleFactor);
-  scaledY = scaleArray(y, scaleFactor);
-  return {
-    x: scaledX,
-    y: scaledY
-  };
-};
-
 arrayRange = function(start, end, interval) {
   " return array with equally-spaced elements, with none greater than end ";
-  var i, n, _i, _results;
+  var i, n, _i, _ref, _results;
   n = Math.floor((end - start) / interval) + 1;
   _results = [];
-  for (i = _i = 0; 0 <= n ? _i <= n : _i >= n; i = 0 <= n ? ++_i : --_i) {
+  for (i = _i = 0, _ref = n - 1; 0 <= _ref ? _i <= _ref : _i >= _ref; i = 0 <= _ref ? ++_i : --_i) {
     _results.push(start + interval * i);
   }
   return _results;
