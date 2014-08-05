@@ -7,7 +7,10 @@ module.exports = function (grunt) {
         },          
         files: {
           'js/utils.js': 'coffee/utils/*.coffee',
-          'js/integrators.js': 'coffee/integrators/*.coffee'
+          'js/integrators.js': 'coffee/integrators/*.coffee',
+          'js/components/equation.js': 'coffee/components/equation.coffee',
+          'js/components/graph.js': 'coffee/components/graph.coffee'
+          
         }
       }
     },
