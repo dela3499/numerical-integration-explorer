@@ -3,7 +3,7 @@ Play with the function on the right by dragging its parameters up or down.
 
 The smaller plots at the bottom show the error for each of several integration methods. Specifically, they show the log of the relative error vs. the number of function evaluations. 
         
-Take the first plot, for instance. It's showing the error for the Midpoint approximation method. At the beginning, only a single function evaluation is used. As you move right on the graph, more function evaluation are used (so the subinterval width, $h$, decreases) and the error drops off.
+Take the first plot, for instance. It's showing the error for the Midpoint approximation method. At the beginning, only a single function evaluation is used. As you move right on the graph, more function evaluations are used (so the subinterval width, $h$, decreases) and the error drops off.
 
 The decline in error is common to all methods, but notice that the rate of decline seems to increase as you move from the Midpoint method to the Romberg method.  
             
