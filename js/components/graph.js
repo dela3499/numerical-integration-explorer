@@ -104,14 +104,14 @@ var Graph = React.createClass({
         
             // Initialize line
             var line = new createjs.Shape();
-            line.graphics.setStrokeStyle(dataSet.options.lineWidth || 1);
+            line.graphics.setStrokeStyle(dataSet.options.lineWidth || 2);
             line.graphics.beginStroke(dataSet.options.color || "white");
             line.graphics.moveTo(dataSet.x[0], dataSet.y[0]);
             
             // Plot each point in dataset
             for (var j = 0; j < dataSet.x.length; j++) {
                 
-                // Plot connecting lines
+                // Plot lines
                 line.graphics.lineTo(dataSet.x[j], dataSet.y[j]);
                 
                 // Plot circle markers

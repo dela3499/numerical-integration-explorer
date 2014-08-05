@@ -115,17 +115,17 @@ var App = React.createClass({
                 // Plot a vertical line on graph to indicate cursor position
                 if (t.state.cursorInfo[0] == g) {
                     
+                    // Plot approximation errors as points
+                    data[0].options.markers = {color: 'white', size: 1};
+                    data[0].options.color = 'rgba(255, 255, 255, 0)';
+                    
                     xCursor = t.state.cursorInfo[1][0];
                     data.push({
                         x: linspace(xCursor,xCursor,10),
                         y: linspace(bounds[2],bounds[3],10),
                         options: {
                             color: "black",
-                            lineWidth: 0,
-                            markers: {
-                                color: 'red',
-                                size: 3
-                            }
+                            lineWidth: 1
                         }
                     });
                 };
