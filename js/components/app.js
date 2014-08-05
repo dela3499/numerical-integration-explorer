@@ -25,10 +25,15 @@ var App = React.createClass({
     },
     componentWillMount: function () {
         var t = this;
+        // Get json (in dev environment)
         $.getJSON("http://127.0.0.1:42955/text/prose.json", function (data) {
-            console.log("data_received");
             t.setState({text: data});
-        });
+        }).fail(function () { // Get json (in production environment) This is a hack, but works for now.
+            $.getJSON("http://dela3499.github.io/numerical-integration-explorer/text/prose.json", function (data) {
+                t.setState({text: data});
+            })
+        }
+        );
     },
     evalSinFunc: function () {
     /* evaluate sine function with locally-set parameters, and return plotting object */
