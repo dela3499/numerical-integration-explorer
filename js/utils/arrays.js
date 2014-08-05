@@ -1,4 +1,4 @@
-var arrayRange, linspace;
+var arrayRange, centerAndScale, linspace;
 
 Array.prototype.max = function() {
   " return largest element in array ";
@@ -40,6 +40,21 @@ linspace = function(start, end, n) {
     _results.push(start + interval * i);
   }
   return _results;
+};
+
+centerAndScale = function(x, y, sideLength, percentage) {
+  var innerSideLength, range, scaleFactor, scaledX, scaledY, xRange, yRange;
+  innerSideLength = sideLength * percentage;
+  xRange = x.max() - x.min();
+  yRange = y.max() - y.min();
+  range = Math.max(xRange, yRange);
+  scaleFactor = innerSideLength / range;
+  scaledX = scaleArray(x, scaleFactor);
+  scaledY = scaleArray(y, scaleFactor);
+  return {
+    x: scaledX,
+    y: scaledY
+  };
 };
 
 arrayRange = function(start, end, interval) {

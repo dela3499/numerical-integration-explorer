@@ -18,6 +18,16 @@ linspace = (start, end, n) ->
     interval = (end - start) / (n - 1)
     start + interval * i for i in [0..n]
 
+centerAndScale = (x,y,sideLength,percentage) ->
+    innerSideLength = sideLength * percentage
+    xRange = x.max() - x.min()
+    yRange = y.max() - y.min()
+    range = Math.max(xRange,yRange)
+    scaleFactor = innerSideLength / range
+    scaledX = scaleArray(x,scaleFactor)
+    scaledY = scaleArray(y,scaleFactor)
+    {x:scaledX,y:scaledY}     
+        
 arrayRange = (start, end, interval) ->
     " return array with equally-spaced elements, with none greater than end "
     n = Math.floor((end-start)/interval) + 1
