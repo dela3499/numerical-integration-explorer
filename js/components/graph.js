@@ -50,6 +50,7 @@ var Graph = React.createClass({
                         var pos = [scaleX(e.stageX),scaleY(e.stageY)]; // scaled [x,y] position
                         t.props.callbacks[propName](pos);
                     });
+                    
                 };
 
             });
@@ -85,34 +86,51 @@ var Graph = React.createClass({
 
     },    
     draw: function () {
-        // rescale to make canvas shows data in bounds
+        // Rescale to make canvas shows data in bounds
         var plotData = this.fitDataToCanvas(
                 this.props.data,
                 this.props.size,
                 this.props.size,
                 this.props.bounds
-                );
+                ); 
+        
+        // Clear canvas
+        var stage = this.state.stage;
+        stage.removeAllChildren();
         
         // Plot each dataset
         for (var i = 0; i < plotData.length; i++) {
             var dataSet = plotData[i];
         
-            // initialize line
+            // Initialize line
             var line = new createjs.Shape();
-            line.graphics.setStrokeStyle(dataSet.options.lineWidth || 3);
+            line.graphics.setStrokeStyle(dataSet.options.lineWidth || 1);
             line.graphics.beginStroke(dataSet.options.color || "white");
+            line.graphics.moveTo(dataSet.x[0], dataSet.y[0]);
             
-            // Plot each point in dataset (connected with lines)
-            for (var j = 0; j < dataSet.x.length - 1; j++) {
-                line.graphics.moveTo(dataSet.x[j], dataSet.y[j]);
-                line.graphics.lineTo(dataSet.x[j+1], dataSet.y[j+1]);
-            }
+            // Plot each point in dataset
+            for (var j = 0; j < dataSet.x.length; j++) {
+                
+                // Plot connecting lines
+                line.graphics.lineTo(dataSet.x[j], dataSet.y[j]);
+                
+                // Plot circle markers
+                if (dataSet.options.markers) {
+                    var circle = new createjs.Shape(),
+                        markerColor = dataSet.options.markers.color || 'white',
+                        markerRadius = dataSet.options.markers.size || 10;
+                    
+                    circle.graphics.beginFill(markerColor).drawCircle(0, 0, markerRadius);
+                    circle.x = dataSet.x[j];
+                    circle.y = dataSet.y[j];
+                    stage.addChild(circle);                       
+                };
             
-            // clear canvas and draw new line
+            };
+
+            // Add shapes to stage
             line.graphics.endStroke();
-            var stage = this.state.stage;
-            stage.removeAllChildren(); // clear previous
-            stage.addChild(line); // add new line
+            stage.addChild(line);
             stage.update();
         };
     }           

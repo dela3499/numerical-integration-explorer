@@ -27,7 +27,7 @@ var App = React.createClass({
     componentWillMount: function () {
         var t = this;
         // Get json (in dev environment)
-        $.getJSON("http://127.0.0.1:55134/text/prose.json", function (data) {
+        $.getJSON("http://127.0.0.1:33901//text/prose.json", function (data) {
             t.setState({text: data});
         }).fail(function () { // Get json (in production environment) This is a hack, but works for now.
             $.getJSON("http://dela3499.github.io/numerical-integration-explorer/text/prose.json", function (data) {
@@ -112,6 +112,24 @@ var App = React.createClass({
                     },
                     data = [t.getIntegral(g)];
                 
+                // Plot a vertical line on graph to indicate cursor position
+                if (t.state.cursorInfo[0] == g) {
+                    
+                    xCursor = t.state.cursorInfo[1][0];
+                    data.push({
+                        x: linspace(xCursor,xCursor,10),
+                        y: linspace(bounds[2],bounds[3],10),
+                        options: {
+                            color: "black",
+                            lineWidth: 0,
+                            markers: {
+                                color: 'red',
+                                size: 3
+                            }
+                        }
+                    });
+                };
+           
                 return (
                     <div className="wrapper">
                         <Graph className={g} data={data} size={size} bounds={bounds} callbacks={callbacks}/>
