@@ -19,8 +19,16 @@ var App = React.createClass({
                 lineWidth: 3
             },
             xRange: 5*Math.PI, // integrals will be evaluated over [0,xRange]
-            params: {A:1,f:1,phi:0,B:0}
+            params: {A:1,f:1,phi:0,B:0},
+            text: []
         };
+    },
+    componentWillMount: function () {
+        var t = this;
+        $.getJSON("http://127.0.0.1:42955/text/prose.json", function (data) {
+            console.log("data_received");
+            t.setState({text: data});
+        });
     },
     evalSinFunc: function () {
     /* evaluate sine function with locally-set parameters, and return plotting object */
@@ -85,15 +93,8 @@ var App = React.createClass({
         return (
             <div>
                 <div className="explanation-container">
-                    <div className="explanation">
-                        <h1>Get a feel for numerical integration!</h1>
-                        <p>Play with the function on the right by dragging its parameters up or down. </p> 
-                        <p>The smaller plots at the bottom show the error for each of several integration methods. Specifically, they show the log of the relative error vs. the number of function evaluations. 
-        </p><p>Take the first plot, for instance. It's showing the error for the Midpoint approximation method. At the beginning, only a single function evaluation is used. As you move right on the graph, more function evaluation are used (so the subinterval width, $h$, decreases) and the error drops off.</p>
-            <p>The decline in error is common to all methods, but notice that the rate of decline seems to increase as you move from the Midpoint method to the Romberg method.  </p>
-            <p>Is this always the case? Is there some function where the Romberg method isn't the most accurate? </p>
-            <p>It turns that there is. Try moving the frequency (the number right after $sin$) to $5$. In this case, Simpson's rule seems more accurate, if only by a bit.</p>
-            <p>Feel free to play with the function parameters to gain a feel for which ones affect the integration algorithms the most. (Hint: it's frequency!)</p>
+                    <div className="explanation" dangerouslySetInnerHTML={{__html: this.state.text[0]}}>
+                        
                     </div>
                 </div>
                 <div className="controls-container">

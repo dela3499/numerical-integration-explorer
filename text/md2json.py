@@ -3,7 +3,7 @@ import json
 
 # Specify all markdown files for conversion
 markdownFiles = [
-    'main.md'
+    'markdown/main.md'
 ]
 
 # Iterate through each markdown file
@@ -15,6 +15,6 @@ for mdFile in markdownFiles:
     f.close()
 
 # Write output to file
-outFile = open('../prose.json','w')
+outFile = open('prose.json','w')
 outFile.write(json.dumps(allText))
 outFile.close()
