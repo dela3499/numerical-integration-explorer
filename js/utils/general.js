@@ -1,6 +1,11 @@
-var deepCopy = function (x) {
-    var target = (x instanceof Array)? [] : {}; // either create a deepcopy of an array or an object
-    return $.extend(true,target,x)};
+var capitaliseFirstLetter, deepCopy;
 
-var capitaliseFirstLetter = function (string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);}
+deepCopy = function(x) {
+  "Copy array or object by value";
+  return $.extend(true, (x instanceof Array ? [] : {}), x);
+};
+
+capitaliseFirstLetter = function(string) {
+  "Capitalize the first letter of string";
+  return string.charAt(0).toUpperCase() + string.slice(1);
+};

@@ -27,7 +27,7 @@ var App = React.createClass({
     componentWillMount: function () {
         var t = this;
         // Get json (in dev environment)
-        $.getJSON("http://127.0.0.1:33901//text/prose.json", function (data) {
+        $.getJSON("http://127.0.0.1:51323/text/prose.json", function (data) {
             t.setState({text: data});
         }).fail(function () { // Get json (in production environment) This is a hack, but works for now.
             $.getJSON("http://dela3499.github.io/numerical-integration-explorer/text/prose.json", function (data) {
