@@ -1,5 +1,4 @@
 /** @jsx React.DOM */
-        // TODO: move params into App state (or into stores to begin using Flux
 
 var sinFunc = function (params,x) {
         var A   = params.A   || 1,
@@ -20,7 +19,8 @@ var App = React.createClass({
             },
             xRange: 5*Math.PI, // integrals will be evaluated over [0,xRange]
             params: {A:1,f:1,phi:0,B:0},
-            text: []
+            text: [],
+            textPane: 0
         };
     },
     componentWillMount: function () {
@@ -92,15 +92,29 @@ var App = React.createClass({
         return errors;
         
     },
+    handleParamUpdate: function (params) {
+        this.setState({params: params});
+    },
     render: function () {
         var bounds = [-5,75,-10,4], // [xmin,xmax,ymin,ymax]
-            size = 125; // canvas size
+            size = 125, // canvas size
+            t = this;
+        
+        var graphLabels = ['midpoint','trapezoid','simpson','romberg'],
+            graphs = graphLabels.map(function (g) {
+                var label = capitaliseFirstLetter(g);
+                return (
+                    <div className="wrapper">
+                        <Graph className={g} data={[t.getIntegral(g)]} size={size} bounds={bounds}/>
+                        <div className="label">{'$' + label + '$'}</div>
+                    </div>                
+                );
+        });
+        
         return (
             <div>
                 <div className="explanation-container">
-                    <div className="explanation" dangerouslySetInnerHTML={{__html: this.state.text[0]}}>
-                        
-                    </div>
+                    <div className="explanation" dangerouslySetInnerHTML={{__html: this.state.text[this.state.textPane]}}></div>
                 </div>
                 <div className="controls-container">
                     <div className="controls">
@@ -108,34 +122,15 @@ var App = React.createClass({
                             <Graph className="f" data={[this.evalSinFunc()]} size={500} bounds={[-1,5*Math.PI+1,-11,11]}/>
                             <Equation callback={this.handleParamUpdate} />
                         </div>
-                        <div className="wrapper">
-                            <Graph className="midpoint" data={[this.getIntegral('midpoint')]} size={size} bounds={bounds}/>
-                            <div className="label">$Midpoint$</div>
-                        </div>            
-                        <div className="wrapper">
-                            <Graph className="trapezoid" data={[this.getIntegral('trapezoid')]} size={size} bounds={bounds}/>
-                            <div className="label">$Trapezoid$</div>
-                        </div>
-                        <div className="wrapper">
-                            <Graph className="simpson" data={[this.getIntegral('simpson')]} size={size} bounds={bounds}/>
-                            <div className="label">$Simpson's$</div>
-                        </div>
-                        <div className="wrapper">
-                            <Graph className="romberg" data={[this.getIntegral('romberg')]} size={size} bounds={bounds}/>
-                            <div className="label">$Romberg$</div>
-                        </div>       
+                        {graphs}
                     </div>
                 </div>
             </div>
         );
-    },
-    handleParamUpdate: function (params) {
-        this.setState({params: params});
     }
 });
-//var flux = new Fluxxor.Flux(stores,actions);
-var flux = 1;
+
 React.renderComponent(
-    <App flux={flux}/>,
+    <App/>,
     document.getElementById('content')
 );
