@@ -19,14 +19,15 @@ var App = React.createClass({
             },
             xRange: 5*Math.PI, // integrals will be evaluated over [0,xRange]
             params: {A:1,f:1,phi:0,B:0},
-            text: [],
-            textPane: 0
+            text: [], // this gets populated with raw HTML (from markdown) via an AJAX request for JSON
+            textPane: 0, // current text state, since there are multiple pages of explanation
+            cursorInfo: ['none', [0,0]] // show which graph is hovered-over, and where cursor is on graph (in [x,y] coordinate)
         };
     },
     componentWillMount: function () {
         var t = this;
         // Get json (in dev environment)
-        $.getJSON("http://127.0.0.1:42955/text/prose.json", function (data) {
+        $.getJSON("http://127.0.0.1:55134/text/prose.json", function (data) {
             t.setState({text: data});
         }).fail(function () { // Get json (in production environment) This is a hack, but works for now.
             $.getJSON("http://dela3499.github.io/numerical-integration-explorer/text/prose.json", function (data) {
@@ -102,10 +103,18 @@ var App = React.createClass({
         
         var graphLabels = ['midpoint','trapezoid','simpson','romberg'],
             graphs = graphLabels.map(function (g) {
-                var label = capitaliseFirstLetter(g);
+                var label = capitaliseFirstLetter(g),
+                    callbacks = {
+                        mousemove: function (pos) {t.setState({cursorInfo: [g, pos]});},
+                        mouseenter: function (pos) {t.setState({cursorInfo: [g, pos]});},
+                        mouseleave: function (pos) {t.setState({cursorInfo: ['none', [0,0]]});},
+                        click: function (pos) {t.setState({cursorInfo: ['none', [0,0]]});}
+                    },
+                    data = [t.getIntegral(g)];
+                
                 return (
                     <div className="wrapper">
-                        <Graph className={g} data={[t.getIntegral(g)]} size={size} bounds={bounds}/>
+                        <Graph className={g} data={data} size={size} bounds={bounds} callbacks={callbacks}/>
                         <div className="label">{'$' + label + '$'}</div>
                     </div>                
                 );

@@ -1,15 +1,60 @@
 /** @jsx React.DOM */
 
+var interp = function (rawScale, dataScale, rawVal) {
+    /* linear interpolation to convert rawVal from rawScale to dataScale */
+    
+    return (rawVal / (rawScale[1] - rawScale[0])) * (dataScale[1] - dataScale[0]) + dataScale[0];
+    
+};
+
 var Graph = React.createClass({
     componentDidMount: function () {   
         var canvas = this.getDOMNode(); 
         var stage = new createjs.Stage(canvas);
         this.setState({stage:stage}); // provide access for later (avoids having to getDOMNode() on every draw() operation)
+        this.registerCallbacks();
         this.draw();
     },
     componentDidUpdate: function () {
         this.draw();
     },      
+    registerCallbacks: function () {
+        /* register all the provided callbacks with their associated events */
+        
+        var t = this;
+        
+        // Setup events with provided callbacks
+        var scaleX = function (x) {return interp([0,t.props.size], t.props.bounds.slice(0,2), x);};
+        var scaleY = function (x) {return interp([0,t.props.size], t.props.bounds.slice(2), x);};
+        
+        // These are all the supported callbacks
+        var callbacks = [['stagemousemove','mousemove'],'mouseenter','mouseleave','click'];
+        
+        // start registering callbacks if any were provided
+        if (t.props.callbacks) {
+            callbacks.map(function (callback) {
+                
+                // create event and prop names (if there's only one, make them the same)
+                if (callback instanceof Array) {
+                    var eventName = callback[0],
+                        propName = callback[1];
+                } else {
+                    var eventName = callback,
+                        propName = callback;
+                };
+
+                // if callback was provided, register with associated event, and pass [x,y] position as an argument
+                if (t.props.callbacks[propName]) {
+                    
+                    t.state.stage.on(eventName, function (e) {
+                        var pos = [scaleX(e.stageX),scaleY(e.stageY)]; // scaled [x,y] position
+                        t.props.callbacks[propName](pos);
+                    });
+                };
+
+            });
+        };
+    },
     render: function () {
         return (
             <canvas 
