@@ -20,30 +20,4 @@ linspace = (start, end, n) ->
         
 arrayRange = (start, end, interval) ->
     " return array with equally-spaced elements, with none greater than end "
-    n = Math.floor((end-start)/interval) + 1
-    start + interval * i for i in [0..n-1]
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    x for x in [start..end] by interval

@@ -6,8 +6,8 @@ module.exports = function (grunt) {
           bare: true
         },          
         files: {
-          'js/utils/general.js': 'coffee/utils/general.coffee',
-          'js/utils/arrays.js': 'coffee/utils/arrays.coffee'
+          'js/utils.js': 'coffee/utils/*.coffee',
+          'js/integrators.js': 'coffee/integrators/*.coffee'
         }
       }
     },

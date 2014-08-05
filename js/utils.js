@@ -44,11 +44,22 @@ linspace = function(start, end, n) {
 
 arrayRange = function(start, end, interval) {
   " return array with equally-spaced elements, with none greater than end ";
-  var i, n, _i, _ref, _results;
-  n = Math.floor((end - start) / interval) + 1;
+  var x, _i, _results;
   _results = [];
-  for (i = _i = 0, _ref = n - 1; 0 <= _ref ? _i <= _ref : _i >= _ref; i = 0 <= _ref ? ++_i : --_i) {
-    _results.push(start + interval * i);
+  for (x = _i = start; interval > 0 ? _i <= end : _i >= end; x = _i += interval) {
+    _results.push(x);
   }
   return _results;
+};
+
+var capitaliseFirstLetter, deepCopy;
+
+deepCopy = function(x) {
+  "Copy array or object by value";
+  return $.extend(true, (x instanceof Array ? [] : {}), x);
+};
+
+capitaliseFirstLetter = function(string) {
+  "Capitalize the first letter of string";
+  return string.charAt(0).toUpperCase() + string.slice(1);
 };
