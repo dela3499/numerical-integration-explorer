@@ -9,7 +9,8 @@ module.exports = function (grunt) {
           'js/utils.js': 'coffee/utils/*.coffee',
           'js/integrators.js': 'coffee/integrators/*.coffee',
           'js/components/equation.js': 'coffee/components/equation.coffee',
-          'js/components/graph.js': 'coffee/components/graph.coffee'
+          'js/components/graph.js': 'coffee/components/graph.coffee',
+          'js/components/app.js': 'coffee/components/app.coffee'
           
         }
       }

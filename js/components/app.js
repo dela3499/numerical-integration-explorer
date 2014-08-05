@@ -1,144 +1,162 @@
-/** @jsx React.DOM */
+/** @jsx React.DOM */;
+var App, sinFunc;
 
-var sinFunc = function (params,x) {
-        var A   = params.A   || 1,
-            f   = params.f   || 1,
-            phi = params.phi || 0,
-            B   = params.B   || 0;
-        return A * Math.sin(f * x + phi) + B;
+sinFunc = function(params, x) {
+  var A, B, f, phi;
+  A = params.A || 1;
+  f = params.f || 1;
+  phi = params.phi || 0;
+  B = params.B || 0;
+  return A * Math.sin(f * x + phi) + B;
 };
 
-var App = React.createClass({
-    /* Interactive tool for exploring numeric integration*/
-    
-    getInitialState: function () {
-        return {
-            plotOptions: {
-                color: "#2b365c",
-                lineWidth: 3
-            },
-            xRange: 5*Math.PI, // integrals will be evaluated over [0,xRange]
-            params: {A:1,f:1,phi:0,B:0},
-            text: [], // this gets populated with raw HTML (from markdown) via an AJAX request for JSON
-            textPane: 0, // current text state, since there are multiple pages of explanation
-            cursorInfo: ['none', [0,0]] // show which graph is hovered-over, and where cursor is on graph (in [x,y] coordinate)
-        };
-    },
-    componentWillMount: function () {
-        var t = this;
-        // Get json (in dev environment)
-        $.getJSON("http://127.0.0.1:40214/text/prose.json", function (data) {
-            t.setState({text: data});
-        }).fail(function () { // Get json (in production environment) This is a hack, but works for now.
-            $.getJSON("http://dela3499.github.io/numerical-integration-explorer/text/prose.json", function (data) {
-                t.setState({text: data});
-            })
+App = React.createClass({
+  " Interactive tool for exploring numeric integration ": " Interactive tool for exploring numeric integration ",
+  getInitialState: function() {
+    return {
+      plotOptions: {
+        color: "#2b365c",
+        lineWidth: 3
+      },
+      xRange: 5 * Math.PI,
+      params: {
+        A: 1,
+        f: 1,
+        phi: 0,
+        B: 0
+      },
+      text: [],
+      textPane: 0,
+      cursorInfo: ['none', [0, 0]]
+    };
+  },
+  componentWillMount: function() {
+    var t;
+    t = this;
+    return $.getJSON("http:#127.0.0.1:33901#text/prose.json", function(data) {
+      return t.setState({
+        text: data
+      });
+    }).fail(function() {
+      return $.getJSON("http:#dela3499.github.io/numerical-integration-explorer/text/prose.json", function(data) {
+        return t.setState({
+          text: data
+        });
+      });
+    });
+  },
+  evalSinFunc: function() {
+    " evaluate sine function with locally-set parameters, and return plotting object ";
+    var data, t, xi, _i, _len, _ref;
+    t = this;
+    data = {};
+    data.x = linspace(0, t.state.xRange, 1000);
+    _ref = data.x;
+    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+      xi = _ref[_i];
+      data.y = sinFunc(t.state.params, xi);
+    }
+    data.options = t.state.plotOptions;
+    return data;
+  },
+  getIntegralError: function(method) {
+    " return error in approximation for given method ";
+    var Is, errors, fCounts, func, n, ni, result, t, _i, _len, _ref;
+    t = this;
+    n = {
+      midpoint: arrayRange(0, 140, 2),
+      trapezoid: arrayRange(1, 69, 1),
+      simpson: arrayRange(2, 70, 2),
+      romberg: arrayRange(1, 7, 1)
+    };
+    Is = [];
+    fCounts = [];
+    _ref = n[method];
+    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+      ni = _ref[_i];
+      func = sinFunc.bind(t, t.state.params);
+      result = integrate(0, t.state.xRange, ni, func, method);
+      Is.push(result.I);
+      fCounts.push(result.evals.length);
+    }
+    errors = t.calcError(Is);
+    return {
+      x: fCounts,
+      y: errors,
+      options: {}
+    };
+  },
+  calcError: function(Is) {
+    " return logscale relative error ";
+    var errors, t;
+    t = this;
+    return errors = Is.map(function(I) {
+      var actualValue, e;
+      actualValue = symbolic(t.state.xRange, t.state.params);
+      e = Math.abs((actualValue - I) / actualValue);
+      return Math.log(e) / Math.log(10);
+    });
+  },
+  handleParamUpdate: function(params) {
+    return this.setState({
+      params: params
+    });
+  },
+  render: function() {
+    var bounds, graphLabels, graphs, size, t;
+    bounds = [-5, 75, -10, 4];
+    size = 125;
+    t = this;
+    graphLabels = ['midpoint', 'trapezoid', 'simpson', 'romberg'];
+    graphs = graphLabels.map(function(g) {
+      var callbacks, data, xCursor;
+      callbacks = {
+        mousemove: function(pos) {
+          return t.setState({
+            cursorInfo: [g, pos]
+          });
+        },
+        mouseenter: function(pos) {
+          return t.setState({
+            cursorInfo: [g, pos]
+          });
+        },
+        mouseleave: function(pos) {
+          return t.setState({
+            cursorInfo: ['none', [0, 0]]
+          });
+        },
+        click: function(pos) {
+          return t.setState({
+            cursorInfo: ['none', [0, 0]]
+          });
         }
-        );
-    },
-    evalSinFunc: function () {
-    /* evaluate sine function with locally-set parameters, and return plotting object */
-        
-        var t = this, // ugly, but need to maintain access to state
-            data = {};
-        
-        data.x = linspace(0, t.state.xRange,1000);
-        data.y = data.x.map(function (xi) {
-            return sinFunc(t.state.params, xi);
-        });
-        data.options = t.state.plotOptions; // add options object for plotting
-        return data;
-        
-    },
-    getIntegral: function (method) {
-        var t = this;
-        
-        // prepare input ranges to produce similar number of function evals
-        var n = {midpoint:  arrayRange(0,140,2), // even-only (fCount = n/2 + 1)
-                 trapezoid: arrayRange(1,69,1),  // (fCount = n + 1)
-                 simpson:   arrayRange(2,70,2),  // even-only (fCount = n + 1)
-                 romberg:   arrayRange(1,7,1)};  // (fCount = 2^(n-1) + 1) - yep, this one is totally different
-        
-        var Is = [], // integral approximations
-            fCounts = []; // function evaluation counts
-        
-        // Find approximations for each value of n
-        n[method].map(function(ni) {
-            var func = sinFunc.bind(t, t.state.params),
-                result = integrate(0,t.state.xRange, ni, func, method);
-            
-            Is.push(result.I); // collect approximations
-            fCounts.push(result.evals.length); // collect # of evals
-        });
-        
-        var errors = t.getError(Is);
-
-        return {
-            x: fCounts, 
-            y: errors, 
-            options: {}
+      };
+      data = [t.getIntegralError(g)];
+      if (t.state.cursorInfo[0] === g) {
+        data[0].options.markers = {
+          color: 'white',
+          size: 1
         };
-    
-    },    
-    getError: function (x) {
-        /* return logscale relative error */
-        
-        var t = this;
-        var errors = x.map(function (xi) {
-            var actualValue = symbolic(t.state.xRange,t.state.params); // compute exact integral
-            var e =  Math.abs((actualValue- xi)/actualValue);
-            return Math.log(e)/Math.log(10);
+        data[0].options.color = 'rgba(255, 255, 255, 0)';
+        xCursor = t.state.cursorInfo[1][0];
+        data.push({
+          x: linspace(xCursor, xCursor, 10),
+          y: linspace(bounds[2], bounds[3], 10),
+          options: {
+            color: "black",
+            lineWidth: 1
+          }
         });
-        
-        return errors;
-        
-    },
-    handleParamUpdate: function (params) {
-        this.setState({params: params});
-    },
-    render: function () {
-        var bounds = [-5,75,-10,4], // [xmin,xmax,ymin,ymax]
-            size = 125, // canvas size
-            t = this;
-        
-        var graphLabels = ['midpoint','trapezoid','simpson','romberg'],
-            graphs = graphLabels.map(function (g) {
-                var label = capitaliseFirstLetter(g),
-                    callbacks = {
-                        mousemove: function (pos) {t.setState({cursorInfo: [g, pos]});},
-                        mouseenter: function (pos) {t.setState({cursorInfo: [g, pos]});},
-                        mouseleave: function (pos) {t.setState({cursorInfo: ['none', [0,0]]});},
-                        click: function (pos) {t.setState({cursorInfo: ['none', [0,0]]});}
-                    },
-                    data = [t.getIntegral(g)];
-                
-                // Plot a vertical line on graph to indicate cursor position
-                if (t.state.cursorInfo[0] == g) {
-                    
-                    // Plot approximation errors as points
-                    data[0].options.markers = {color: 'white', size: 1};
-                    data[0].options.color = 'rgba(255, 255, 255, 0)';
-                    
-                    xCursor = t.state.cursorInfo[1][0];
-                    data.push({
-                        x: linspace(xCursor,xCursor,10),
-                        y: linspace(bounds[2],bounds[3],10),
-                        options: {
-                            color: "black",
-                            lineWidth: 1
-                        }
-                    });
-                };
-           
-                return (
-                    <div className="wrapper">
-                        <Graph className={g} data={data} size={size} bounds={bounds} callbacks={callbacks}/>
-                        <div className="label">{'$' + label + '$'}</div>
-                    </div>                
-                );
-        });
-        
-        return (
+      }
+      return (
+                <div className="wrapper">
+                    <Graph className={g} data={data} size={size} bounds={bounds} callbacks={callbacks}/>
+                    <div className="label">{'$' + capitaliseFirstLetter(g) + '$'}</div>
+                </div>                
+            );
+    });
+    return (
             <div>
                 <div className="explanation-container">
                     <div className="explanation" dangerouslySetInnerHTML={{__html: this.state.text[this.state.textPane]}}></div>
@@ -154,10 +172,7 @@ var App = React.createClass({
                 </div>
             </div>
         );
-    }
+  }
 });
 
-React.renderComponent(
-    <App/>,
-    document.getElementById('content')
-);
+React.renderComponent(<App/>, document.getElementById('content'));
