@@ -38,10 +38,12 @@ var App = React.createClass({
     },
     getIntegral: function (method) {
         var t = this;
-        var n = {trapezoid: arrayRange(1,69,1),
-                 midpoint:  arrayRange(0,140,2),
-                 simpson:   arrayRange(2,70,2),
-                 romberg:   arrayRange(1,7,1)};
+        
+        // prepare input ranges to produce similar number of function evals
+        var n = {midpoint:  arrayRange(0,140,2), // even-only (fCount = n/2 + 1)
+                 trapezoid: arrayRange(1,69,1),  // (fCount = n + 1)
+                 simpson:   arrayRange(2,70,2),  // even-only (fCount = n + 1)
+                 romberg:   arrayRange(1,7,1)};  // (fCount = 2^(n-1) + 1) - yep, this one is totally different
         
         var Is = [], // integral approximations
             fCounts = []; // function evaluation counts
@@ -56,7 +58,7 @@ var App = React.createClass({
         });
         
         var errors = t.getError(Is);
-        console.log([method,n[method],fCounts])
+
         return {
             x: fCounts, 
             y: errors, 
@@ -66,17 +68,20 @@ var App = React.createClass({
     },    
     getError: function (x) {
         /* return logscale relative error */
-        var errors = [];
-        for (var i = 0; i < x.length; i++) {
-            var actualValue = symbolic(this.state.xRange,this.state.params);
-            var e =  Math.abs((actualValue- x[i])/actualValue);
-            errors.push(Math.log(e)/Math.log(10));
-        };
+        
+        var t = this;
+        var errors = x.map(function (xi) {
+            var actualValue = symbolic(t.state.xRange,t.state.params); // compute exact integral
+            var e =  Math.abs((actualValue- xi)/actualValue);
+            return Math.log(e)/Math.log(10);
+        });
+        
         return errors;
+        
     },
     render: function () {
-        var bounds = [-5,75,-10,4],
-            size = 125;
+        var bounds = [-5,75,-10,4], // [xmin,xmax,ymin,ymax]
+            size = 125; // canvas size
         return (
             <div>
                 <div className="explanation-container">
