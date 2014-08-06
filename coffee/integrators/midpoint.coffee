@@ -20,6 +20,6 @@ midpoint = (a,b,n,func) ->
         x = a + (i + 1) * h
         if (i % 2 == 0) then xi1 += f(x)
     
-    I = 2 * h * xi1;  # Integral approximation
+    I = 2 * h * xi1  # Integral approximation
     
     {I: I, evals: evaluations}

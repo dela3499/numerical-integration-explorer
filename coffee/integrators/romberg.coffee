@@ -14,7 +14,7 @@ romberg = (a,b,n,func) ->
     r = [[], []]  # rows of approximations
     
     # compute 1-level approximation
-    r[0][0] = (h/2)*(f(a) + f(b));
+    r[0][0] = (h/2)*(f(a) + f(b))
     
     if (n < 2)
         # Return early if only doing a 1-level approximation
@@ -31,7 +31,7 @@ romberg = (a,b,n,func) ->
                 y = ((r[1][j-2] - r[0][j-2])/(Math.pow(4,j-1) - 1))
                 r[1][j-1] = r[1][j-2] + y
             h = h/2
-            r[0] = r[1].slice(0); # copy by value instead of reference
+            r[0] = r[1].slice(0) # copy by value instead of reference
             
         # Return normally for multi-level approximations
         {I: r[1][n-1], evals: evaluations}

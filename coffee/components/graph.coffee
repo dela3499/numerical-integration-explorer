@@ -2,7 +2,7 @@
 
 interp = (rawScale, dataScale, rawVal) ->
     " linear interpolation to convert rawVal from rawScale to dataScale "
-    (rawVal / (rawScale[1] - rawScale[0])) * (dataScale[1] - dataScale[0]) + dataScale[0];
+    (rawVal / (rawScale[1] - rawScale[0])) * (dataScale[1] - dataScale[0]) + dataScale[0]
 
 Graph = React.createClass({
     componentDidMount: ->

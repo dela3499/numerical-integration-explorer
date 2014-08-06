@@ -1,12 +1,12 @@
 `/** @jsx React.DOM */`
 
 sinFunc = (params,x) ->
-        A   = params.A   || 1
-        f   = params.f   || 1
-        phi = params.phi || 0
-        B   = params.B   || 0
-        
-        A * Math.sin(f * x + phi) + B
+    A   = params.A   || 1
+    f   = params.f   || 1
+    phi = params.phi || 0
+    B   = params.B   || 0
+
+    A * Math.sin(f * x + phi) + B
 
 App = React.createClass({
     " Interactive tool for exploring numeric integration "
@@ -42,7 +42,7 @@ App = React.createClass({
         data = {}
         
         data.x = linspace(0, t.state.xRange, 1000)
-        data.y = sinFunc(t.state.params, xi) for xi in data.x
+        data.y = (sinFunc(t.state.params, xi) for xi in data.x)
         data.options = t.state.plotOptions # add options object for plotting
         
         data
@@ -85,10 +85,9 @@ App = React.createClass({
         
         t = this
         errors = Is.map (I) ->
-            actualValue = symbolic(t.state.xRange,t.state.params) # compute exact integral
+            actualValue = symbolic(t.state.xRange, t.state.params) # compute exact integral
             e =  Math.abs((actualValue - I) / actualValue)
             Math.log(e) / Math.log(10)
-            
     ,
     handleParamUpdate: (params) ->
         this.setState({params: params})

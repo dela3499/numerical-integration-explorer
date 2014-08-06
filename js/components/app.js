@@ -47,15 +47,20 @@ App = React.createClass({
   },
   evalSinFunc: function() {
     " evaluate sine function with locally-set parameters, and return plotting object ";
-    var data, t, xi, _i, _len, _ref;
+    var data, t, xi;
     t = this;
     data = {};
     data.x = linspace(0, t.state.xRange, 1000);
-    _ref = data.x;
-    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      xi = _ref[_i];
-      data.y = sinFunc(t.state.params, xi);
-    }
+    data.y = (function() {
+      var _i, _len, _ref, _results;
+      _ref = data.x;
+      _results = [];
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        xi = _ref[_i];
+        _results.push(sinFunc(t.state.params, xi));
+      }
+      return _results;
+    })();
     data.options = t.state.plotOptions;
     return data;
   },
