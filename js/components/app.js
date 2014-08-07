@@ -33,12 +33,12 @@ App = React.createClass({
   componentWillMount: function() {
     var t;
     t = this;
-    return $.getJSON("http:#127.0.0.1:33901#text/prose.json", function(data) {
+    return $.getJSON("http://127.0.0.1:33901#text/prose.json", function(data) {
       return t.setState({
         text: data
       });
     }).fail(function() {
-      return $.getJSON("http:#dela3499.github.io/numerical-integration-explorer/text/prose.json", function(data) {
+      return $.getJSON("http://dela3499.github.io/numerical-integration-explorer/text/prose.json", function(data) {
         return t.setState({
           text: data
         });
